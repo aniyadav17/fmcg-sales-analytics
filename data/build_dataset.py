@@ -121,6 +121,90 @@ class DQ:
         return mask
 
 
+def export_powerbi(tx, dt, T, sp, dist, outl, beat, prod, st, ages, inv, a1, a2, P, cols):
+    """Clean star schema for Power BI (data/processed/powerbi). Same cleaned data and business rules as the web dashboard."""
+    out = PROCESSED / "powerbi"
+    out.mkdir(parents=True, exist_ok=True)
+    log("Writing Power BI star schema ...")
+    beat_sp = beat.set_index("Beat_ID").Salesperson_ID
+
+    # ---- dimensions ----
+    dist[["Distributor_ID", "Distributor_Name", "Region", "State", "Territory_Name", "City", "Distributor_Type",
+          "Distributor_Status", "Credit_Limit", "Credit_Days"]].to_csv(out / "dim_distributor.csv", index=False)
+    sp.assign(Distributor_Name=sp.Distributor_ID.map(dist.set_index("Distributor_ID").Distributor_Name))[
+        ["Salesperson_ID", "Salesperson_Name", "Distributor_ID", "Distributor_Name", "Status"]].to_csv(out / "dim_salesperson.csv", index=False)
+    beat.assign(Salesperson_Name=beat.Salesperson_ID.map(sp.set_index("Salesperson_ID").Salesperson_Name))[
+        ["Beat_ID", "Beat_Name", "Salesperson_ID", "Salesperson_Name", "Distributor_ID", "Visit_Day"]].to_csv(out / "dim_beat.csv", index=False)
+    outl.assign(Salesperson_ID=outl.Beat_ID.map(beat_sp))[
+        ["Outlet_ID", "Outlet_Name", "Outlet_Type", "Channel", "City", "Distributor_ID", "Salesperson_ID", "Beat_ID",
+         "Outlet_Status", "Opening_Date", "Closed_Date"]].to_csv(out / "dim_outlet.csv", index=False)
+    prod.assign(Pack=prod.Pack_Size.astype(str) + " " + prod.UOM)[
+        ["SKU_ID", "SKU_Code", "Product_Name", "Brand", "Category", "Sub_Category", "Pack", "Product_Status"]].to_csv(out / "dim_product.csv", index=False)
+    pd.DataFrame({"Category": CATEGORIES, "Category_Order": range(1, len(CATEGORIES) + 1)}).to_csv(out / "dim_category.csv", index=False)
+
+    # ---- fact_sales (clean invoice lines) ----
+    fs = pd.DataFrame({
+        "Date": dt.dt.strftime("%Y-%m-%d").to_numpy(), "Sales_Type": tx.Sales_Type.to_numpy(), "Invoice_No": tx.Invoice_No.to_numpy(),
+        "Distributor_ID": tx.Distributor_ID.to_numpy(), "Salesperson_ID": tx.Salesperson_ID.to_numpy(), "Beat_ID": tx.Beat_ID.to_numpy(),
+        "Outlet_ID": tx.Outlet_ID.to_numpy(), "SKU_ID": tx.SKU_ID.to_numpy(), "Quantity": tx.Quantity.to_numpy(),
+        "Net_Sales": tx.Net_Sales.round(2).to_numpy(), "Cost": tx.Cost.round(2).to_numpy()})
+    fs.sort_values(["Date", "Sales_Type"]).to_csv(out / "fact_sales.csv.gz", index=False, compression="gzip")
+
+    # ---- fact_targets (salesperson x category x month, after imputation) ----
+    s_i, m_i, c_i = np.nonzero(T > 0)
+    pd.DataFrame({
+        "Month_Date": [f"{2021 + m // 12}-{m % 12 + 1:02d}-01" for m in m_i], "Salesperson_ID": sp.Salesperson_ID.to_numpy()[s_i],
+        "Distributor_ID": sp.Distributor_ID.to_numpy()[s_i], "Category": np.array(CATEGORIES)[c_i],
+        "Target_Amount": np.round(T[s_i, m_i, c_i], 2)}).to_csv(out / "fact_targets.csv", index=False)
+
+    # ---- fact_stock (month-end snapshot + cover / status on the dashboard's rules) ----
+    nD, nS = len(dist), len(prod)
+    sec = cols["stype"] == 1
+    units = np.zeros((nD, nS, N_MONTHS))
+    np.add.at(units, (cols["di"][sec], cols["si"][sec], cols["month"][sec]), cols["qty"][sec])
+    c = np.cumsum(np.pad(units, ((0, 0), (0, 0), (1, 0))), axis=2)
+    d_, s_, m_ = st.di.to_numpy(), st.si.to_numpy(), st.m.to_numpy()
+    s3 = c[d_, s_, m_ + 1] - c[d_, s_, np.maximum(0, m_ - 2)]
+    ptd = P["Distributor_Price"][s_, price_period(m_)]
+    closing = st.Closing_Stock.to_numpy().astype(float)
+    daily = s3 / 91
+    dos = np.where(daily > 0, closing / np.where(daily > 0, daily, 1), np.nan)
+    status = np.select([closing <= 0, s3 <= 0, dos > 90, dos > 45, dos < 7],
+                       ["Stock-out", "Non-moving", "Slow-moving", "Overstock", "Low Stock"], "Healthy")
+    pd.DataFrame({
+        "Snapshot_Date": st.Snapshot_Date.to_numpy(), "Distributor_ID": st.Distributor_ID.to_numpy(), "SKU_ID": st.SKU_ID.to_numpy(),
+        "Closing_Stock": closing.astype(np.int64), "Stock_Value": np.round(closing * ptd, 2),
+        "Sales_3M_Units": s3.astype(np.int64), "Sales_3M_Value_PTD": np.round(s3 * ptd, 2),
+        "Days_of_Stock": np.round(dos, 1), "Stock_Status": status,
+        "Status_Order": pd.Series(status).map({"Stock-out": 1, "Low Stock": 2, "Healthy": 3, "Overstock": 4, "Slow-moving": 5, "Non-moving": 6}).to_numpy(),
+        "Aged_90_Plus_Value": np.round(ages[:, 3] * ptd, 2)}).to_csv(out / "fact_stock.csv.gz", index=False, compression="gzip")
+
+    # ---- fact_collections (primary invoice, status as of the report date) ----
+    as_of = int((END - START).days)
+    p1 = inv.pay_day_1.to_numpy(); p2 = inv.pay_day_2.to_numpy()
+    paid1 = np.where(~np.isnan(p1) & (np.nan_to_num(p1, nan=1e9) <= as_of), a1, 0.0)
+    paid2 = np.where(~np.isnan(p2) & (np.nan_to_num(p2, nan=1e9) <= as_of), a2, 0.0)
+    amt = inv.Invoice_Amount.to_numpy()
+    paid = paid1 + paid2
+    outstanding = np.maximum(0, amt - paid)
+    outstanding = np.where(outstanding > 0.5, outstanding, 0.0)
+    due = inv.due_day.to_numpy()
+    dpd = np.where(outstanding > 0, as_of - due, 0)
+    bucket = np.select([outstanding <= 0, dpd <= 0, dpd <= 30, dpd <= 60, dpd <= 90],
+                       ["Paid", "Not yet due", "0-30", "31-60", "61-90"], "90+")
+    inv_day = inv.inv_day.to_numpy()
+    wdays = paid1 * np.nan_to_num(p1 - inv_day) + paid2 * np.nan_to_num(p2 - inv_day)
+    to_date = lambda d: (START + pd.to_timedelta(d, unit="D")).strftime("%Y-%m-%d")
+    pd.DataFrame({
+        "Invoice_No": inv.index.to_numpy(), "Distributor_ID": inv.Distributor_ID.to_numpy(),
+        "Invoice_Date": to_date(inv_day), "Due_Date": to_date(due), "Invoice_Amount": np.round(amt, 2),
+        "Collected_Amount": np.round(paid, 2), "Outstanding_Amount": np.round(outstanding, 2),
+        "Overdue_Amount": np.round(np.where(dpd > 0, outstanding, 0), 2), "Days_Past_Due": np.maximum(dpd, 0).astype(int),
+        "Ageing_Bucket": bucket, "Ageing_Order": pd.Series(bucket).map({"Not yet due": 1, "0-30": 2, "31-60": 3, "61-90": 4, "90+": 5, "Paid": 6}).to_numpy(),
+        "Paid_x_Days": np.round(wdays, 2)}).to_csv(out / "fact_collections.csv", index=False)
+    log(f"  Power BI files -> {out}")
+
+
 def main():
     t0 = time.time()
     WEB.mkdir(parents=True, exist_ok=True)
@@ -358,6 +442,10 @@ def main():
         "pay1Day": inv.pay_day_1.fillna(NONE16).to_numpy().astype(np.uint16), "pay1Amt": a1.astype(np.float32),
         "pay2Day": inv.pay_day_2.fillna(NONE16).to_numpy().astype(np.uint16), "pay2Amt": a2.astype(np.float32)})
     coll_layout.update(n=int(len(inv)))
+
+    # ======================================================================= Power BI star schema
+    export_powerbi(tx, dt, T, sp, dist, outl, beat, prod, st, ages, inv, a1, a2, P,
+                   dict(stype=stype, month=month, di=di, si=si, qty=qty))
 
     # ======================================================================= masters.json
     log("Writing masters and manifest ...")
