@@ -1,0 +1,1084 @@
+{
+ "generatedAt": "2026-09-19T15:07:07",
+ "totalRecords": 1556059,
+ "exceptionRecords": 574,
+ "validRecords": 1555654,
+ "dqPct": 99.963,
+ "tables": [
+  {
+   "table": "Master data",
+   "total": 8883,
+   "exceptions": 0,
+   "valid": 8883,
+   "dqPct": 100.0
+  },
+  {
+   "table": "Sales transactions",
+   "total": 1080477,
+   "exceptions": 465,
+   "removed": 405,
+   "valid": 1080072,
+   "dqPct": 99.957
+  },
+  {
+   "table": "Sales targets",
+   "total": 156907,
+   "exceptions": 37,
+   "valid": 156907,
+   "dqPct": 99.976
+  },
+  {
+   "table": "Distributor stock",
+   "total": 294030,
+   "exceptions": 60,
+   "valid": 294030,
+   "dqPct": 99.98
+  },
+  {
+   "table": "Collections",
+   "total": 15762,
+   "exceptions": 12,
+   "valid": 15762,
+   "dqPct": 99.924
+  }
+ ],
+ "checks": [
+  {
+   "id": "M-outlet_master-dup",
+   "table": "outlet_master",
+   "check": "Duplicate primary keys",
+   "rule": "Outlet_ID must be unique",
+   "severity": "High",
+   "count": 0,
+   "pct": 0.0,
+   "action": "None required",
+   "status": "Pass",
+   "sample": []
+  },
+  {
+   "id": "M-product_master-dup",
+   "table": "product_master",
+   "check": "Duplicate primary keys",
+   "rule": "SKU_ID must be unique",
+   "severity": "High",
+   "count": 0,
+   "pct": 0.0,
+   "action": "None required",
+   "status": "Pass",
+   "sample": []
+  },
+  {
+   "id": "M-distributor_master-dup",
+   "table": "distributor_master",
+   "check": "Duplicate primary keys",
+   "rule": "Distributor_ID must be unique",
+   "severity": "High",
+   "count": 0,
+   "pct": 0.0,
+   "action": "None required",
+   "status": "Pass",
+   "sample": []
+  },
+  {
+   "id": "M-outlet-beat",
+   "table": "outlet_master",
+   "check": "Outlet not mapped to a valid beat",
+   "rule": "Beat_ID exists in beat_master",
+   "severity": "High",
+   "count": 0,
+   "pct": 0.0,
+   "action": "None required",
+   "status": "Pass",
+   "sample": []
+  },
+  {
+   "id": "M-sku-price",
+   "table": "product_master",
+   "check": "SKU without price list",
+   "rule": "Every SKU has 6 price periods",
+   "severity": "High",
+   "count": 0,
+   "pct": 0.0,
+   "action": "None required",
+   "status": "Pass",
+   "sample": []
+  },
+  {
+   "id": "T-01",
+   "table": "sales_transactions",
+   "check": "Invalid transaction dates",
+   "rule": "Transaction_Date is a valid YYYY-MM-DD date within Jan-2021..Dec-2025",
+   "severity": "High",
+   "count": 25,
+   "pct": 0.0023,
+   "action": "Quarantined",
+   "status": "Fail",
+   "sample": [
+    {
+     "Transaction_ID": "TXN00048989",
+     "Transaction_Date": "2027-01-15",
+     "Invoice_No": "SI/2122/0000849",
+     "Distributor_ID": "DST-0019",
+     "Outlet_ID": "OUT-01094",
+     "SKU_ID": "SKU-0036",
+     "Sales_Type": "Secondary",
+     "Quantity": "5",
+     "Net_Sales": "939.52"
+    },
+    {
+     "Transaction_ID": "TXN00099574",
+     "Transaction_Date": "2024-13-05",
+     "Invoice_No": "SI/2122/0014356",
+     "Distributor_ID": "DST-0069",
+     "Outlet_ID": "OUT-04236",
+     "SKU_ID": "SKU-0032",
+     "Sales_Type": "Secondary",
+     "Quantity": "8",
+     "Net_Sales": "1855.38"
+    },
+    {
+     "Transaction_ID": "TXN00135771",
+     "Transaction_Date": "31/12/2022",
+     "Invoice_No": "SI/2122/0024487",
+     "Distributor_ID": "DST-0018",
+     "Outlet_ID": "OUT-01056",
+     "SKU_ID": "SKU-0236",
+     "Sales_Type": "Secondary",
+     "Quantity": "5",
+     "Net_Sales": "1358.39"
+    },
+    {
+     "Transaction_ID": "TXN00162636",
+     "Transaction_Date": "2023-02-30",
+     "Invoice_No": "SI/2122/0031859",
+     "Distributor_ID": "DST-0097",
+     "Outlet_ID": "OUT-05834",
+     "SKU_ID": "SKU-0079",
+     "Sales_Type": "Secondary",
+     "Quantity": "3",
+     "Net_Sales": "659.99"
+    },
+    {
+     "Transaction_ID": "TXN00194510",
+     "Transaction_Date": "",
+     "Invoice_No": "SI/2122/0040577",
+     "Distributor_ID": "DST-0070",
+     "Outlet_ID": "OUT-04297",
+     "SKU_ID": "SKU-0042",
+     "Sales_Type": "Secondary",
+     "Quantity": "6",
+     "Net_Sales": "880.27"
+    },
+    {
+     "Transaction_ID": "TXN00197010",
+     "Transaction_Date": "2023-02-30",
+     "Invoice_No": "SI/2122/0041320",
+     "Distributor_ID": "DST-0037",
+     "Outlet_ID": "OUT-02268",
+     "SKU_ID": "SKU-0212",
+     "Sales_Type": "Secondary",
+     "Quantity": "46",
+     "Net_Sales": "3014.24"
+    },
+    {
+     "Transaction_ID": "TXN00198835",
+     "Transaction_Date": "31/12/2022",
+     "Invoice_No": "SI/2122/0041944",
+     "Distributor_ID": "DST-0008",
+     "Outlet_ID": "OUT-00453",
+     "SKU_ID": "SKU-0194",
+     "Sales_Type": "Secondary",
+     "Quantity": "37",
+     "Net_Sales": "1665.79"
+    },
+    {
+     "Transaction_ID": "TXN00227592",
+     "Transaction_Date": "",
+     "Invoice_No": "SI/2223/0001230",
+     "Distributor_ID": "DST-0005",
+     "Outlet_ID": "OUT-00269",
+     "SKU_ID": "SKU-0220",
+     "Sales_Type": "Secondary",
+     "Quantity": "9",
+     "Net_Sales": "1872.12"
+    }
+   ]
+  },
+  {
+   "id": "T-02",
+   "table": "sales_transactions",
+   "check": "Duplicate transactions",
+   "rule": "Business key (Invoice_No, SKU_ID, Sales_Type, Quantity, Outlet_ID) appears once",
+   "severity": "High",
+   "count": 240,
+   "pct": 0.0222,
+   "action": "Duplicate copies removed (first occurrence kept)",
+   "status": "Fail",
+   "sample": [
+    {
+     "Transaction_ID": "TXN01080238",
+     "Transaction_Date": "2024-08-07",
+     "Invoice_No": "SI/2425/0021891",
+     "Distributor_ID": "DST-0060",
+     "Outlet_ID": "OUT-03616",
+     "SKU_ID": "SKU-0001",
+     "Sales_Type": "Secondary",
+     "Quantity": "38",
+     "Net_Sales": "1123.16"
+    },
+    {
+     "Transaction_ID": "TXN01080239",
+     "Transaction_Date": "2021-08-12",
+     "Invoice_No": "SI/2122/0015430",
+     "Distributor_ID": "DST-0053",
+     "Outlet_ID": "OUT-03317",
+     "SKU_ID": "SKU-0185",
+     "Sales_Type": "Secondary",
+     "Quantity": "9",
+     "Net_Sales": "422.62"
+    },
+    {
+     "Transaction_ID": "TXN01080240",
+     "Transaction_Date": "2022-03-15",
+     "Invoice_No": "SI/2122/0046033",
+     "Distributor_ID": "DST-0065",
+     "Outlet_ID": "OUT-03923",
+     "SKU_ID": "SKU-0197",
+     "Sales_Type": "Secondary",
+     "Quantity": "32",
+     "Net_Sales": "1634.8"
+    },
+    {
+     "Transaction_ID": "TXN01080241",
+     "Transaction_Date": "2024-07-03",
+     "Invoice_No": "SI/2425/0016001",
+     "Distributor_ID": "DST-0090",
+     "Outlet_ID": "OUT-05457",
+     "SKU_ID": "SKU-0211",
+     "Sales_Type": "Secondary",
+     "Quantity": "30",
+     "Net_Sales": "3759.36"
+    },
+    {
+     "Transaction_ID": "TXN01080242",
+     "Transaction_Date": "2024-11-19",
+     "Invoice_No": "SI/2425/0041469",
+     "Distributor_ID": "DST-0047",
+     "Outlet_ID": "OUT-02953",
+     "SKU_ID": "SKU-0042",
+     "Sales_Type": "Secondary",
+     "Quantity": "6",
+     "Net_Sales": "1007.32"
+    },
+    {
+     "Transaction_ID": "TXN01080243",
+     "Transaction_Date": "2023-10-28",
+     "Invoice_No": "SI/2324/0033948",
+     "Distributor_ID": "DST-0110",
+     "Outlet_ID": "OUT-06699",
+     "SKU_ID": "SKU-0024",
+     "Sales_Type": "Secondary",
+     "Quantity": "6",
+     "Net_Sales": "1128.83"
+    },
+    {
+     "Transaction_ID": "TXN01080244",
+     "Transaction_Date": "2023-06-30",
+     "Invoice_No": "SI/2324/0013784",
+     "Distributor_ID": "DST-0049",
+     "Outlet_ID": "OUT-03066",
+     "SKU_ID": "SKU-0146",
+     "Sales_Type": "Secondary",
+     "Quantity": "12",
+     "Net_Sales": "626.48"
+    },
+    {
+     "Transaction_ID": "TXN01080245",
+     "Transaction_Date": "2021-03-17",
+     "Invoice_No": "SI/2021/0009777",
+     "Distributor_ID": "DST-0013",
+     "Outlet_ID": "OUT-00767",
+     "SKU_ID": "SKU-0210",
+     "Sales_Type": "Secondary",
+     "Quantity": "1",
+     "Net_Sales": "63.15"
+    }
+   ]
+  },
+  {
+   "id": "T-03",
+   "table": "sales_transactions",
+   "check": "Missing SKU IDs",
+   "rule": "SKU_ID present and in product master",
+   "severity": "High",
+   "count": 40,
+   "pct": 0.0037,
+   "action": "Quarantined",
+   "status": "Fail",
+   "sample": [
+    {
+     "Transaction_ID": "TXN00007512",
+     "Transaction_Date": "2021-01-14",
+     "Invoice_No": "SI/2021/0001966",
+     "Distributor_ID": "DST-0107",
+     "Outlet_ID": "OUT-06471",
+     "SKU_ID": "",
+     "Sales_Type": "Secondary",
+     "Quantity": "23",
+     "Net_Sales": "2521.5"
+    },
+    {
+     "Transaction_ID": "TXN00049169",
+     "Transaction_Date": "2021-04-07",
+     "Invoice_No": "SI/2122/0000920",
+     "Distributor_ID": "DST-0062",
+     "Outlet_ID": "OUT-03797",
+     "SKU_ID": "",
+     "Sales_Type": "Secondary",
+     "Quantity": "2",
+     "Net_Sales": "301.96"
+    },
+    {
+     "Transaction_ID": "TXN00066286",
+     "Transaction_Date": "2021-05-21",
+     "Invoice_No": "SI/2122/0005531",
+     "Distributor_ID": "DST-0099",
+     "Outlet_ID": "OUT-05963",
+     "SKU_ID": "",
+     "Sales_Type": "Secondary",
+     "Quantity": "10",
+     "Net_Sales": "1998.0"
+    },
+    {
+     "Transaction_ID": "TXN00070304",
+     "Transaction_Date": "2021-06-03",
+     "Invoice_No": "SI/2122/0006585",
+     "Distributor_ID": "DST-0002",
+     "Outlet_ID": "OUT-00092",
+     "SKU_ID": "",
+     "Sales_Type": "Secondary",
+     "Quantity": "5",
+     "Net_Sales": "1541.48"
+    },
+    {
+     "Transaction_ID": "TXN00078667",
+     "Transaction_Date": "2021-06-19",
+     "Invoice_No": "SI/2122/0008657",
+     "Distributor_ID": "DST-0040",
+     "Outlet_ID": "OUT-02461",
+     "SKU_ID": "",
+     "Sales_Type": "Secondary",
+     "Quantity": "9",
+     "Net_Sales": "2856.06"
+    },
+    {
+     "Transaction_ID": "TXN00081037",
+     "Transaction_Date": "2021-06-28",
+     "Invoice_No": "SI/2122/0009489",
+     "Distributor_ID": "DST-0035",
+     "Outlet_ID": "OUT-02133",
+     "SKU_ID": "",
+     "Sales_Type": "Secondary",
+     "Quantity": "22",
+     "Net_Sales": "391.95"
+    },
+    {
+     "Transaction_ID": "TXN00088271",
+     "Transaction_Date": "2021-07-13",
+     "Invoice_No": "SI/2122/0011461",
+     "Distributor_ID": "DST-0034",
+     "Outlet_ID": "OUT-02081",
+     "SKU_ID": "",
+     "Sales_Type": "Secondary",
+     "Quantity": "20",
+     "Net_Sales": "1272.1"
+    },
+    {
+     "Transaction_ID": "TXN00094006",
+     "Transaction_Date": "2021-07-26",
+     "Invoice_No": "SI/2122/0013030",
+     "Distributor_ID": "DST-0077",
+     "Outlet_ID": "OUT-04704",
+     "SKU_ID": "",
+     "Sales_Type": "Secondary",
+     "Quantity": "7",
+     "Net_Sales": "482.19"
+    }
+   ]
+  },
+  {
+   "id": "T-04",
+   "table": "sales_transactions",
+   "check": "Missing outlet IDs",
+   "rule": "Secondary / return lines carry a valid Outlet_ID",
+   "severity": "High",
+   "count": 35,
+   "pct": 0.0032,
+   "action": "Quarantined",
+   "status": "Fail",
+   "sample": [
+    {
+     "Transaction_ID": "TXN00035280",
+     "Transaction_Date": "2021-03-09",
+     "Invoice_No": "SI/2021/0008794",
+     "Distributor_ID": "DST-0007",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0162",
+     "Sales_Type": "Secondary",
+     "Quantity": "33",
+     "Net_Sales": "575.65"
+    },
+    {
+     "Transaction_ID": "TXN00064749",
+     "Transaction_Date": "2021-05-17",
+     "Invoice_No": "SI/2122/0005008",
+     "Distributor_ID": "DST-0016",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0106",
+     "Sales_Type": "Secondary",
+     "Quantity": "4",
+     "Net_Sales": "406.29"
+    },
+    {
+     "Transaction_ID": "TXN00066744",
+     "Transaction_Date": "2021-05-24",
+     "Invoice_No": "SI/2122/0005682",
+     "Distributor_ID": "DST-0057",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0195",
+     "Sales_Type": "Secondary",
+     "Quantity": "5",
+     "Net_Sales": "440.45"
+    },
+    {
+     "Transaction_ID": "TXN00192506",
+     "Transaction_Date": "2022-02-02",
+     "Invoice_No": "SI/2122/0040182",
+     "Distributor_ID": "DST-0108",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0226",
+     "Sales_Type": "Secondary",
+     "Quantity": "9",
+     "Net_Sales": "764.78"
+    },
+    {
+     "Transaction_ID": "TXN00197662",
+     "Transaction_Date": "2022-02-10",
+     "Invoice_No": "SI/2122/0041533",
+     "Distributor_ID": "DST-0067",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0033",
+     "Sales_Type": "Secondary",
+     "Quantity": "7",
+     "Net_Sales": "495.28"
+    },
+    {
+     "Transaction_ID": "TXN00210625",
+     "Transaction_Date": "2022-03-07",
+     "Invoice_No": "SI/2122/0044780",
+     "Distributor_ID": "DST-0044",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0195",
+     "Sales_Type": "Secondary",
+     "Quantity": "26",
+     "Net_Sales": "2111.05"
+    },
+    {
+     "Transaction_ID": "TXN00259800",
+     "Transaction_Date": "2022-06-08",
+     "Invoice_No": "SI/2223/0010037",
+     "Distributor_ID": "DST-0115",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0200",
+     "Sales_Type": "Secondary",
+     "Quantity": "9",
+     "Net_Sales": "514.44"
+    },
+    {
+     "Transaction_ID": "TXN00266721",
+     "Transaction_Date": "2022-06-21",
+     "Invoice_No": "SI/2223/0011767",
+     "Distributor_ID": "DST-0088",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0119",
+     "Sales_Type": "Secondary",
+     "Quantity": "12",
+     "Net_Sales": "2559.38"
+    }
+   ]
+  },
+  {
+   "id": "T-05",
+   "table": "sales_transactions",
+   "check": "Missing distributor IDs",
+   "rule": "Distributor_ID populated",
+   "severity": "Medium",
+   "count": 75,
+   "pct": 0.0069,
+   "action": "60 repaired from outlet master; 15 quarantined",
+   "status": "Warn",
+   "sample": [
+    {
+     "Transaction_ID": "TXN00003415",
+     "Transaction_Date": "2021-01-05",
+     "Invoice_No": "SI/2021/0000480",
+     "Distributor_ID": "",
+     "Outlet_ID": "OUT-01557",
+     "SKU_ID": "SKU-0078",
+     "Sales_Type": "Secondary",
+     "Quantity": "22",
+     "Net_Sales": "2360.6"
+    },
+    {
+     "Transaction_ID": "TXN00011596",
+     "Transaction_Date": "2021-01-22",
+     "Invoice_No": "SI/2021/0002845",
+     "Distributor_ID": "",
+     "Outlet_ID": "OUT-04642",
+     "SKU_ID": "SKU-0190",
+     "Sales_Type": "Secondary",
+     "Quantity": "10",
+     "Net_Sales": "1792.26"
+    },
+    {
+     "Transaction_ID": "TXN00012531",
+     "Transaction_Date": "2021-01-26",
+     "Invoice_No": "SI/2021/0003182",
+     "Distributor_ID": "",
+     "Outlet_ID": "OUT-02259",
+     "SKU_ID": "SKU-0143",
+     "Sales_Type": "Secondary",
+     "Quantity": "6",
+     "Net_Sales": "721.32"
+    },
+    {
+     "Transaction_ID": "TXN00012725",
+     "Transaction_Date": "2021-01-26",
+     "Invoice_No": "SI/2021/0003243",
+     "Distributor_ID": "",
+     "Outlet_ID": "OUT-05416",
+     "SKU_ID": "SKU-0124",
+     "Sales_Type": "Secondary",
+     "Quantity": "8",
+     "Net_Sales": "336.16"
+    },
+    {
+     "Transaction_ID": "TXN00031389",
+     "Transaction_Date": "2021-03-03",
+     "Invoice_No": "SI/2021/0007842",
+     "Distributor_ID": "",
+     "Outlet_ID": "OUT-00332",
+     "SKU_ID": "SKU-0037",
+     "Sales_Type": "Secondary",
+     "Quantity": "4",
+     "Net_Sales": "1188.94"
+    },
+    {
+     "Transaction_ID": "TXN00036326",
+     "Transaction_Date": "2021-03-11",
+     "Invoice_No": "SI/2021/0009148",
+     "Distributor_ID": "",
+     "Outlet_ID": "OUT-06064",
+     "SKU_ID": "SKU-0079",
+     "Sales_Type": "Secondary",
+     "Quantity": "18",
+     "Net_Sales": "3618.72"
+    },
+    {
+     "Transaction_ID": "TXN00051584",
+     "Transaction_Date": "2021-04-14",
+     "Invoice_No": "SI/2122/0001725",
+     "Distributor_ID": "",
+     "Outlet_ID": "OUT-05148",
+     "SKU_ID": "SKU-0159",
+     "Sales_Type": "Secondary",
+     "Quantity": "97",
+     "Net_Sales": "1687.74"
+    },
+    {
+     "Transaction_ID": "TXN00059445",
+     "Transaction_Date": "2021-05-04",
+     "Invoice_No": "SI/2122/0003620",
+     "Distributor_ID": "",
+     "Outlet_ID": "OUT-01520",
+     "SKU_ID": "SKU-0078",
+     "Sales_Type": "Secondary",
+     "Quantity": "8",
+     "Net_Sales": "910.83"
+    }
+   ]
+  },
+  {
+   "id": "T-06",
+   "table": "sales_transactions",
+   "check": "Sales without a valid distributor",
+   "rule": "Distributor_ID exists in distributor master",
+   "severity": "High",
+   "count": 35,
+   "pct": 0.0032,
+   "action": "Quarantined",
+   "status": "Fail",
+   "sample": [
+    {
+     "Transaction_ID": "TXN00006341",
+     "Transaction_Date": "2021-01-12",
+     "Invoice_No": "SI/2021/0001547",
+     "Distributor_ID": "DST-9999",
+     "Outlet_ID": "OUT-03204",
+     "SKU_ID": "SKU-0050",
+     "Sales_Type": "Secondary",
+     "Quantity": "5",
+     "Net_Sales": "475.0"
+    },
+    {
+     "Transaction_ID": "TXN00014659",
+     "Transaction_Date": "2021-02-01",
+     "Invoice_No": "SI/2021/0003934",
+     "Distributor_ID": "DST-9999",
+     "Outlet_ID": "OUT-04856",
+     "SKU_ID": "SKU-0047",
+     "Sales_Type": "Secondary",
+     "Quantity": "1",
+     "Net_Sales": "248.66"
+    },
+    {
+     "Transaction_ID": "TXN00144874",
+     "Transaction_Date": "2021-11-02",
+     "Invoice_No": "PI/2122/0001540",
+     "Distributor_ID": "",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0043",
+     "Sales_Type": "Primary",
+     "Quantity": "27",
+     "Net_Sales": "6627.44"
+    },
+    {
+     "Transaction_ID": "TXN00182002",
+     "Transaction_Date": "2022-01-10",
+     "Invoice_No": "SI/2122/0037105",
+     "Distributor_ID": "DST-9999",
+     "Outlet_ID": "OUT-06356",
+     "SKU_ID": "SKU-0012",
+     "Sales_Type": "Secondary",
+     "Quantity": "17",
+     "Net_Sales": "2624.83"
+    },
+    {
+     "Transaction_ID": "TXN00234872",
+     "Transaction_Date": "2022-04-23",
+     "Invoice_No": "SI/2223/0003295",
+     "Distributor_ID": "DST-9999",
+     "Outlet_ID": "OUT-03530",
+     "SKU_ID": "SKU-0067",
+     "Sales_Type": "Secondary",
+     "Quantity": "19",
+     "Net_Sales": "612.39"
+    },
+    {
+     "Transaction_ID": "TXN00265310",
+     "Transaction_Date": "2022-06-17",
+     "Invoice_No": "SI/2223/0011291",
+     "Distributor_ID": "DST-9999",
+     "Outlet_ID": "OUT-03509",
+     "SKU_ID": "SKU-0134",
+     "Sales_Type": "Secondary",
+     "Quantity": "7",
+     "Net_Sales": "932.12"
+    },
+    {
+     "Transaction_ID": "TXN00287234",
+     "Transaction_Date": "2022-08-03",
+     "Invoice_No": "PI/2223/0000937",
+     "Distributor_ID": "",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0033",
+     "Sales_Type": "Primary",
+     "Quantity": "138",
+     "Net_Sales": "9768.9"
+    },
+    {
+     "Transaction_ID": "TXN00339234",
+     "Transaction_Date": "2022-11-02",
+     "Invoice_No": "PI/2223/0001588",
+     "Distributor_ID": "",
+     "Outlet_ID": "",
+     "SKU_ID": "SKU-0142",
+     "Sales_Type": "Primary",
+     "Quantity": "6",
+     "Net_Sales": "414.44"
+    }
+   ]
+  },
+  {
+   "id": "T-07",
+   "table": "sales_transactions",
+   "check": "Negative quantities on sales lines",
+   "rule": "Quantity > 0 for Primary / Secondary (negatives only allowed on Sales Return)",
+   "severity": "High",
+   "count": 30,
+   "pct": 0.0028,
+   "action": "Quarantined",
+   "status": "Fail",
+   "sample": [
+    {
+     "Transaction_ID": "TXN00006545",
+     "Transaction_Date": "2021-01-12",
+     "Invoice_No": "SI/2021/0001611",
+     "Distributor_ID": "DST-0095",
+     "Outlet_ID": "OUT-05725",
+     "SKU_ID": "SKU-0165",
+     "Sales_Type": "Secondary",
+     "Quantity": "-248",
+     "Net_Sales": "-4050.21"
+    },
+    {
+     "Transaction_ID": "TXN00011779",
+     "Transaction_Date": "2021-01-23",
+     "Invoice_No": "SI/2021/0002921",
+     "Distributor_ID": "DST-0032",
+     "Outlet_ID": "OUT-01956",
+     "SKU_ID": "SKU-0078",
+     "Sales_Type": "Secondary",
+     "Quantity": "-26",
+     "Net_Sales": "-2646.54"
+    },
+    {
+     "Transaction_ID": "TXN00055104",
+     "Transaction_Date": "2021-04-22",
+     "Invoice_No": "SI/2122/0002496",
+     "Distributor_ID": "DST-0038",
+     "Outlet_ID": "OUT-02300",
+     "SKU_ID": "SKU-0057",
+     "Sales_Type": "Secondary",
+     "Quantity": "-1",
+     "Net_Sales": "-213.34"
+    },
+    {
+     "Transaction_ID": "TXN00152147",
+     "Transaction_Date": "2021-11-12",
+     "Invoice_No": "SI/2122/0029063",
+     "Distributor_ID": "DST-0085",
+     "Outlet_ID": "OUT-05207",
+     "SKU_ID": "SKU-0119",
+     "Sales_Type": "Secondary",
+     "Quantity": "-2",
+     "Net_Sales": "-408.24"
+    },
+    {
+     "Transaction_ID": "TXN00166658",
+     "Transaction_Date": "2021-12-10",
+     "Invoice_No": "SI/2122/0032900",
+     "Distributor_ID": "DST-0042",
+     "Outlet_ID": "OUT-02638",
+     "SKU_ID": "SKU-0167",
+     "Sales_Type": "Secondary",
+     "Quantity": "-18",
+     "Net_Sales": "-1323.3"
+    },
+    {
+     "Transaction_ID": "TXN00188084",
+     "Transaction_Date": "2022-01-24",
+     "Invoice_No": "SI/2122/0038788",
+     "Distributor_ID": "DST-0003",
+     "Outlet_ID": "OUT-00156",
+     "SKU_ID": "SKU-0061",
+     "Sales_Type": "Secondary",
+     "Quantity": "-13",
+     "Net_Sales": "-397.22"
+    },
+    {
+     "Transaction_ID": "TXN00202921",
+     "Transaction_Date": "2022-02-21",
+     "Invoice_No": "SI/2122/0042896",
+     "Distributor_ID": "DST-0074",
+     "Outlet_ID": "OUT-04518",
+     "SKU_ID": "SKU-0043",
+     "Sales_Type": "Secondary",
+     "Quantity": "-11",
+     "Net_Sales": "-2800.09"
+    },
+    {
+     "Transaction_ID": "TXN00296702",
+     "Transaction_Date": "2022-08-18",
+     "Invoice_No": "SI/2223/0020001",
+     "Distributor_ID": "DST-0083",
+     "Outlet_ID": "OUT-05045",
+     "SKU_ID": "SKU-0159",
+     "Sales_Type": "Secondary",
+     "Quantity": "-22",
+     "Net_Sales": "-419.83"
+    }
+   ]
+  },
+  {
+   "id": "T-08",
+   "table": "sales_transactions",
+   "check": "Amount integrity",
+   "rule": "Net_Sales = Gross_Sales - Discount (+-1)",
+   "severity": "Medium",
+   "count": 0,
+   "pct": 0.0,
+   "action": "None required",
+   "status": "Pass",
+   "sample": []
+  },
+  {
+   "id": "T-09",
+   "table": "sales_transactions",
+   "check": "Outlet-distributor mapping",
+   "rule": "Line distributor = outlet's distributor in master",
+   "severity": "Medium",
+   "count": 0,
+   "pct": 0.0,
+   "action": "None required",
+   "status": "Pass",
+   "sample": []
+  },
+  {
+   "id": "TG-01",
+   "table": "sales_targets",
+   "check": "Missing targets",
+   "rule": "Every salesperson-month with sales has a target",
+   "severity": "Medium",
+   "count": 37,
+   "pct": 0.1654,
+   "action": "Imputed from the average of adjacent months (same salesperson x category)",
+   "status": "Warn",
+   "sample": [
+    {
+     "Salesperson_ID": "SP-0011",
+     "Month": "2024-05",
+     "Secondary_Sales": "78848.9"
+    },
+    {
+     "Salesperson_ID": "SP-0016",
+     "Month": "2024-01",
+     "Secondary_Sales": "15421.03"
+    },
+    {
+     "Salesperson_ID": "SP-0038",
+     "Month": "2023-12",
+     "Secondary_Sales": "5921.9"
+    },
+    {
+     "Salesperson_ID": "SP-0039",
+     "Month": "2022-09",
+     "Secondary_Sales": "36565.49"
+    },
+    {
+     "Salesperson_ID": "SP-0040",
+     "Month": "2025-01",
+     "Secondary_Sales": "56853.79"
+    },
+    {
+     "Salesperson_ID": "SP-0064",
+     "Month": "2021-06",
+     "Secondary_Sales": "32235.34"
+    },
+    {
+     "Salesperson_ID": "SP-0065",
+     "Month": "2021-09",
+     "Secondary_Sales": "40647.67"
+    },
+    {
+     "Salesperson_ID": "SP-0080",
+     "Month": "2023-08",
+     "Secondary_Sales": "49979.67"
+    }
+   ]
+  },
+  {
+   "id": "S-01",
+   "table": "distributor_stock",
+   "check": "Stock inconsistencies",
+   "rule": "Closing = Opening + Primary - Secondary + Returns + Adjustment",
+   "severity": "Medium",
+   "count": 60,
+   "pct": 0.0204,
+   "action": "Closing stock recomputed from the roll-forward",
+   "status": "Warn",
+   "sample": [
+    {
+     "Snapshot_Date": "2022-05-31",
+     "Distributor_ID": "DST-0003",
+     "SKU_ID": "SKU-0152",
+     "Opening_Stock": "22",
+     "Primary_Received": "0",
+     "Secondary_Sales": "0",
+     "Sales_Return": "0",
+     "Adjustment": "0",
+     "Closing_Stock": "67"
+    },
+    {
+     "Snapshot_Date": "2025-04-30",
+     "Distributor_ID": "DST-0004",
+     "SKU_ID": "SKU-0211",
+     "Opening_Stock": "31",
+     "Primary_Received": "0",
+     "Secondary_Sales": "27",
+     "Sales_Return": "0",
+     "Adjustment": "0",
+     "Closing_Stock": "60"
+    },
+    {
+     "Snapshot_Date": "2024-03-31",
+     "Distributor_ID": "DST-0011",
+     "SKU_ID": "SKU-0091",
+     "Opening_Stock": "0",
+     "Primary_Received": "60",
+     "Secondary_Sales": "0",
+     "Sales_Return": "0",
+     "Adjustment": "0",
+     "Closing_Stock": "101"
+    },
+    {
+     "Snapshot_Date": "2022-10-31",
+     "Distributor_ID": "DST-0011",
+     "SKU_ID": "SKU-0155",
+     "Opening_Stock": "99",
+     "Primary_Received": "0",
+     "Secondary_Sales": "35",
+     "Sales_Return": "0",
+     "Adjustment": "0",
+     "Closing_Stock": "79"
+    },
+    {
+     "Snapshot_Date": "2025-02-28",
+     "Distributor_ID": "DST-0014",
+     "SKU_ID": "SKU-0171",
+     "Opening_Stock": "43",
+     "Primary_Received": "0",
+     "Secondary_Sales": "0",
+     "Sales_Return": "0",
+     "Adjustment": "-4",
+     "Closing_Stock": "97"
+    },
+    {
+     "Snapshot_Date": "2025-07-31",
+     "Distributor_ID": "DST-0015",
+     "SKU_ID": "SKU-0012",
+     "Opening_Stock": "31",
+     "Primary_Received": "0",
+     "Secondary_Sales": "16",
+     "Sales_Return": "0",
+     "Adjustment": "0",
+     "Closing_Stock": "25"
+    },
+    {
+     "Snapshot_Date": "2021-08-31",
+     "Distributor_ID": "DST-0016",
+     "SKU_ID": "SKU-0174",
+     "Opening_Stock": "168",
+     "Primary_Received": "0",
+     "Secondary_Sales": "128",
+     "Sales_Return": "0",
+     "Adjustment": "0",
+     "Closing_Stock": "96"
+    },
+    {
+     "Snapshot_Date": "2025-11-30",
+     "Distributor_ID": "DST-0017",
+     "SKU_ID": "SKU-0078",
+     "Opening_Stock": "113",
+     "Primary_Received": "0",
+     "Secondary_Sales": "11",
+     "Sales_Return": "0",
+     "Adjustment": "0",
+     "Closing_Stock": "134"
+    }
+   ]
+  },
+  {
+   "id": "S-02",
+   "table": "distributor_stock",
+   "check": "Opening stock continuity",
+   "rule": "Opening = previous month closing",
+   "severity": "Low",
+   "count": 0,
+   "pct": 0.0,
+   "action": "None required",
+   "status": "Pass",
+   "sample": []
+  },
+  {
+   "id": "C-01",
+   "table": "collections",
+   "check": "Collection exceeds invoice amount",
+   "rule": "Sum of collections <= invoice amount",
+   "severity": "Medium",
+   "count": 12,
+   "pct": 0.0761,
+   "action": "Capped at invoice value (excess held as unapplied advance)",
+   "status": "Warn",
+   "sample": [
+    {
+     "Collection_ID": "COL0000630",
+     "Invoice_No": "PI/2021/0000552",
+     "Invoice_Amount": "69364.67",
+     "Collection_Amount": "76301.14"
+    },
+    {
+     "Collection_ID": "COL0004127",
+     "Invoice_No": "PI/2223/0000265",
+     "Invoice_Amount": "312294.48",
+     "Collection_Amount": "343523.93"
+    },
+    {
+     "Collection_ID": "COL0004935",
+     "Invoice_No": "PI/2223/0000962",
+     "Invoice_Amount": "110944.9",
+     "Collection_Amount": "74070.85"
+    },
+    {
+     "Collection_ID": "COL0004936",
+     "Invoice_No": "PI/2223/0000962",
+     "Invoice_Amount": "110944.9",
+     "Collection_Amount": "40561.46"
+    },
+    {
+     "Collection_ID": "COL0005454",
+     "Invoice_No": "PI/2223/0001411",
+     "Invoice_Amount": "70082.33",
+     "Collection_Amount": "77090.56"
+    },
+    {
+     "Collection_ID": "COL0006231",
+     "Invoice_No": "PI/2223/0002078",
+     "Invoice_Amount": "63634.74",
+     "Collection_Amount": "48085.88"
+    },
+    {
+     "Collection_ID": "COL0006232",
+     "Invoice_No": "PI/2223/0002078",
+     "Invoice_Amount": "63634.74",
+     "Collection_Amount": "17103.75"
+    },
+    {
+     "Collection_ID": "COL0009221",
+     "Invoice_No": "PI/2324/0001974",
+     "Invoice_Amount": "8665.61",
+     "Collection_Amount": "9532.17"
+    }
+   ]
+  },
+  {
+   "id": "C-02",
+   "table": "collections",
+   "check": "Invoice without distributor",
+   "rule": "Distributor_ID exists in master",
+   "severity": "High",
+   "count": 0,
+   "pct": 0.0,
+   "action": "None required",
+   "status": "Pass",
+   "sample": []
+  }
+ ],
+ "reconciliation": {
+  "rows": 1080072,
+  "raw_net": 2672468001.79,
+  "recomputed_net": 2672467994.16,
+  "max_abs_diff": 0.005,
+  "rows_diff_gt_1": 0
+ }
+}

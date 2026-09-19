@@ -1,0 +1,20 @@
+id,table,check,rule,severity,count,pct,action,status
+M-outlet_master-dup,outlet_master,Duplicate primary keys,Outlet_ID must be unique,High,0,0.0,None required,Pass
+M-product_master-dup,product_master,Duplicate primary keys,SKU_ID must be unique,High,0,0.0,None required,Pass
+M-distributor_master-dup,distributor_master,Duplicate primary keys,Distributor_ID must be unique,High,0,0.0,None required,Pass
+M-outlet-beat,outlet_master,Outlet not mapped to a valid beat,Beat_ID exists in beat_master,High,0,0.0,None required,Pass
+M-sku-price,product_master,SKU without price list,Every SKU has 6 price periods,High,0,0.0,None required,Pass
+T-01,sales_transactions,Invalid transaction dates,Transaction_Date is a valid YYYY-MM-DD date within Jan-2021..Dec-2025,High,25,0.0023,Quarantined,Fail
+T-02,sales_transactions,Duplicate transactions,"Business key (Invoice_No, SKU_ID, Sales_Type, Quantity, Outlet_ID) appears once",High,240,0.0222,Duplicate copies removed (first occurrence kept),Fail
+T-03,sales_transactions,Missing SKU IDs,SKU_ID present and in product master,High,40,0.0037,Quarantined,Fail
+T-04,sales_transactions,Missing outlet IDs,Secondary / return lines carry a valid Outlet_ID,High,35,0.0032,Quarantined,Fail
+T-05,sales_transactions,Missing distributor IDs,Distributor_ID populated,Medium,75,0.0069,60 repaired from outlet master; 15 quarantined,Warn
+T-06,sales_transactions,Sales without a valid distributor,Distributor_ID exists in distributor master,High,35,0.0032,Quarantined,Fail
+T-07,sales_transactions,Negative quantities on sales lines,Quantity > 0 for Primary / Secondary (negatives only allowed on Sales Return),High,30,0.0028,Quarantined,Fail
+T-08,sales_transactions,Amount integrity,Net_Sales = Gross_Sales - Discount (+-1),Medium,0,0.0,None required,Pass
+T-09,sales_transactions,Outlet-distributor mapping,Line distributor = outlet's distributor in master,Medium,0,0.0,None required,Pass
+TG-01,sales_targets,Missing targets,Every salesperson-month with sales has a target,Medium,37,0.1654,Imputed from the average of adjacent months (same salesperson x category),Warn
+S-01,distributor_stock,Stock inconsistencies,Closing = Opening + Primary - Secondary + Returns + Adjustment,Medium,60,0.0204,Closing stock recomputed from the roll-forward,Warn
+S-02,distributor_stock,Opening stock continuity,Opening = previous month closing,Low,0,0.0,None required,Pass
+C-01,collections,Collection exceeds invoice amount,Sum of collections <= invoice amount,Medium,12,0.0761,Capped at invoice value (excess held as unapplied advance),Warn
+C-02,collections,Invoice without distributor,Distributor_ID exists in master,High,0,0.0,None required,Pass

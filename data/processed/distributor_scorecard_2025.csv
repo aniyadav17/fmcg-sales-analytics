@@ -1,0 +1,119 @@
+Distributor_ID,Distributor_Name,Region,State,Distributor_Type,Primary_Sales,Secondary_Sales_Net,Target,Achievement_Pct
+DST-0001,Shiv Shakti Enterprises,North,Delhi,Urban Distributor,2287530.67,2231457.96,2669000.0,83.6
+DST-0002,Vinayak Marketing,North,Delhi,Key Account Distributor,14126666.68,13695513.94,13559500.0,101.0
+DST-0003,Coromandel Sales Corporation,North,Delhi,Urban Distributor,1612769.44,1726854.41,1753000.0,98.5
+DST-0004,Sri Venkateswara Traders,North,Delhi,Urban Distributor,2004410.72,2032661.09,2013500.0,101.0
+DST-0005,Siddhi Agencies,North,Delhi,Urban Distributor,1571994.95,1578015.32,1748500.0,90.2
+DST-0006,Global Traders,North,Delhi,Rural Distributor,1458518.37,1530262.81,1845500.0,82.9
+DST-0007,Royal Trading Co.,North,Delhi,Urban Distributor,3960200.21,4074247.19,4400500.0,92.6
+DST-0008,Ganesh Associates,North,Haryana,Urban Distributor,1577564.64,1611078.3,1668000.0,96.6
+DST-0009,Vindhya Trading Co.,North,Haryana,Key Account Distributor,5932456.06,6224655.97,5833000.0,106.7
+DST-0010,Ganga Agencies,North,Haryana,Rural Distributor,919773.01,954158.01,1201000.0,79.4
+DST-0011,Sai Krishna Sales Corporation,North,Haryana,Urban Distributor,1182741.72,1297844.72,1779000.0,73.0
+DST-0012,Himalaya Distributors,North,Haryana,Rural Distributor,622899.59,623000.26,799000.0,78.0
+DST-0013,Anand Agencies,North,Punjab,Urban Distributor,1640709.18,1739083.22,1997250.0,87.1
+DST-0014,Shiv Shakti Traders,North,Punjab,Urban Distributor,1442576.84,1424117.69,1662500.0,85.7
+DST-0015,Annapurna Trading Co.,North,Punjab,Urban Distributor,1521274.1,1643968.21,2194500.0,74.9
+DST-0016,Krishna Agencies,North,Punjab,Urban Distributor,4821041.11,4889281.69,5411500.0,90.3
+DST-0017,Coromandel Traders,North,Uttar Pradesh,Urban Distributor,846680.78,860916.35,959000.0,89.8
+DST-0018,Mahalaxmi Marketing,North,Uttar Pradesh,Key Account Distributor,7056082.56,7031987.82,6267500.0,112.2
+DST-0019,Supreme Marketing,North,Uttar Pradesh,Urban Distributor,1389547.6,1404109.63,1575500.0,89.1
+DST-0020,Maa Durga Marketing,North,Uttar Pradesh,Rural Distributor,1741924.55,1835716.08,2031500.0,90.4
+DST-0021,Bharat Enterprises,North,Uttar Pradesh,Urban Distributor,1566332.78,1537925.16,1573000.0,97.8
+DST-0022,Sri Venkateswara Sales Corporation,North,Uttar Pradesh,Key Account Distributor,4953143.41,4820158.92,5100500.0,94.5
+DST-0023,Sahyadri Agencies,North,Uttar Pradesh,Urban Distributor,2079574.28,2234693.99,2343000.0,95.4
+DST-0024,National Traders,North,Uttar Pradesh,Urban Distributor,1836267.74,1879292.15,1832500.0,102.6
+DST-0025,Om Sai Trading Co.,North,Uttar Pradesh,Urban Distributor,3467178.04,3733833.57,3650500.0,102.3
+DST-0026,Annapurna Enterprises,North,Uttar Pradesh,Urban Distributor,1785169.91,1891759.21,2331500.0,81.1
+DST-0027,Shiv Shakti Sales Corporation,North,Uttar Pradesh,Urban Distributor,2621313.64,2848822.01,2926500.0,97.3
+DST-0028,Hanuman Agencies,North,Uttar Pradesh,Rural Distributor,1910165.37,2042767.58,2083000.0,98.1
+DST-0029,New India Traders,North,Uttarakhand,Urban Distributor,1587629.03,1714142.46,2069000.0,82.8
+DST-0030,Anand Sales Corporation,North,Uttarakhand,Urban Distributor,2900702.4,2782651.07,2231500.0,124.7
+DST-0031,Maa Durga Trading Co.,West,Maharashtra,Urban Distributor,1842572.19,1837387.33,1852500.0,99.2
+DST-0032,Narmada Sales Corporation,West,Maharashtra,Key Account Distributor,14276560.99,14532501.6,14124000.0,102.9
+DST-0033,Royal Agencies,West,Maharashtra,Urban Distributor,1575163.67,1612041.98,1594000.0,101.1
+DST-0034,Star Trading Co.,West,Maharashtra,Key Account Distributor,16493757.2,16424070.6,15800000.0,103.9
+DST-0035,Kaveri Agencies,West,Maharashtra,Urban Distributor,1012404.58,1145577.36,1690500.0,67.8
+DST-0036,Siddhi Distributors,West,Maharashtra,Urban Distributor,2787346.75,2871885.2,2780500.0,103.3
+DST-0037,Star Associates,West,Maharashtra,Urban Distributor,2802820.52,2973331.44,3159000.0,94.1
+DST-0038,Annapurna Agencies,West,Maharashtra,Urban Distributor,868926.08,914790.58,905000.0,101.1
+DST-0039,Om Sai Traders,West,Maharashtra,Urban Distributor,3125577.31,3195162.6,3328000.0,96.0
+DST-0040,Narmada Trading Co.,West,Maharashtra,Urban Distributor,4646645.09,4669211.16,4433750.0,105.3
+DST-0041,Shree Balaji Enterprises,West,Maharashtra,Rural Distributor,2590581.23,2734605.73,2795750.0,97.8
+DST-0042,Coromandel Agencies,West,Maharashtra,Urban Distributor,2159133.98,2370733.69,2711500.0,87.4
+DST-0043,Maa Durga Sales Corporation,West,Gujarat,Urban Distributor,3783322.19,3817754.16,3736000.0,102.2
+DST-0044,Siddhi Enterprises,West,Gujarat,Key Account Distributor,11655729.82,11868030.89,12726000.0,93.3
+DST-0045,Coromandel Marketing,West,Gujarat,Urban Distributor,1412648.58,1526365.58,1922500.0,79.4
+DST-0046,Supreme Associates,West,Gujarat,Urban Distributor,1624719.12,1713190.0,1672000.0,102.5
+DST-0047,Galaxy Trading Co.,West,Gujarat,Urban Distributor,2700403.68,2767579.28,3093500.0,89.5
+DST-0048,Supreme Trading Co.,West,Gujarat,Urban Distributor,1799475.11,1870056.33,2142000.0,87.3
+DST-0049,Vindhya Enterprises,West,Gujarat,Urban Distributor,3657072.1,3839522.85,3825000.0,100.4
+DST-0050,Global Marketing,West,Gujarat,Urban Distributor,3337755.66,3440918.58,3607500.0,95.4
+DST-0051,Narmada Traders,West,Rajasthan,Urban Distributor,4960282.14,5180427.54,5629000.0,92.0
+DST-0052,Galaxy Sales Corporation,West,Rajasthan,Key Account Distributor,5846080.8,5780737.43,6302000.0,91.7
+DST-0053,Vindhya Associates,West,Rajasthan,Urban Distributor,1735840.81,1852337.48,1649500.0,112.3
+DST-0054,Prime Distributors,West,Rajasthan,Urban Distributor,590805.81,639065.61,1011500.0,63.2
+DST-0055,Shiv Shakti Associates,West,Rajasthan,Rural Distributor,1280777.7,1408832.44,1321000.0,106.6
+DST-0056,Bharat Traders,West,Rajasthan,Rural Distributor,1956423.04,2023872.13,1946750.0,104.0
+DST-0057,Anand Trading Co.,West,Rajasthan,Rural Distributor,689766.99,705562.19,891000.0,79.2
+DST-0058,Maa Durga Agencies,West,Rajasthan,Rural Distributor,495505.76,505537.08,551500.0,91.7
+DST-0059,Siddhi Associates,West,Rajasthan,Rural Distributor,591671.88,615747.18,682500.0,90.2
+DST-0060,Sagar Trading Co.,Central,Madhya Pradesh,Urban Distributor,2775697.74,2814651.17,2665500.0,105.6
+DST-0061,Vinayak Agencies,Central,Madhya Pradesh,Urban Distributor,1149543.58,1185785.26,1164000.0,101.9
+DST-0062,Kaveri Marketing,Central,Madhya Pradesh,Urban Distributor,1239338.13,1239615.09,1417000.0,87.5
+DST-0063,New India Marketing,Central,Madhya Pradesh,Urban Distributor,741492.3,759845.59,829500.0,91.6
+DST-0064,Bharat Trading Co.,Central,Madhya Pradesh,Urban Distributor,1387908.28,1347670.24,1152000.0,117.0
+DST-0065,Vindhya Marketing,Central,Chhattisgarh,Urban Distributor,2153661.4,2312474.18,2481750.0,93.2
+DST-0066,Radhe Distributors,Central,Chhattisgarh,Urban Distributor,656871.08,714836.88,813500.0,87.9
+DST-0067,Pioneer Sales Corporation,Central,Chhattisgarh,Urban Distributor,3891974.15,3897066.75,3793500.0,102.7
+DST-0068,Sagar Traders,Central,Chhattisgarh,Urban Distributor,2533815.95,2527743.98,2281500.0,110.8
+DST-0069,Sahyadri Traders,South,Karnataka,Urban Distributor,776470.85,765963.35,967500.0,79.2
+DST-0070,Coromandel Trading Co.,South,Karnataka,Key Account Distributor,13279440.08,13306771.8,14151500.0,94.0
+DST-0071,Krishna Associates,South,Karnataka,Urban Distributor,1275131.96,1296467.7,1500500.0,86.4
+DST-0072,New India Distributors,South,Karnataka,Rural Distributor,2006635.72,2116737.05,2148000.0,98.5
+DST-0073,Guru Kripa Traders,South,Karnataka,Urban Distributor,2120002.06,2199651.23,1925500.0,114.2
+DST-0074,Mahalaxmi Agencies,South,Karnataka,Urban Distributor,2365902.79,2607194.08,3148000.0,82.8
+DST-0075,Himalaya Trading Co.,South,Karnataka,Rural Distributor,1729298.1,1822656.36,1944500.0,93.7
+DST-0076,National Trading Co.,South,Karnataka,Urban Distributor,2835000.84,2866036.38,2856500.0,100.3
+DST-0077,Annapurna Traders,South,Karnataka,Urban Distributor,3096522.55,3333673.66,3484000.0,95.7
+DST-0078,Sai Krishna Traders,South,Tamil Nadu,Urban Distributor,997135.13,956786.05,988000.0,96.8
+DST-0079,Global Trading Co.,South,Tamil Nadu,Key Account Distributor,5650251.07,5603790.11,5759500.0,97.3
+DST-0080,Global Agencies,South,Tamil Nadu,Urban Distributor,1385639.63,1462287.99,1664000.0,87.9
+DST-0081,Jai Ambe Sales Corporation,South,Tamil Nadu,Urban Distributor,2455724.22,2567959.95,2154000.0,119.2
+DST-0082,Star Distributors,South,Tamil Nadu,Urban Distributor,2630069.32,2749658.37,2629000.0,104.6
+DST-0083,Star Enterprises,South,Telangana,Urban Distributor,3149484.99,3177035.0,2989000.0,106.3
+DST-0084,Jai Ambe Trading Co.,South,Telangana,Key Account Distributor,9259538.67,9419012.17,9408500.0,100.1
+DST-0085,Laxmi Associates,South,Telangana,Urban Distributor,590941.01,631139.48,750000.0,84.2
+DST-0086,Global Associates,South,Telangana,Urban Distributor,2486101.02,2469122.05,2344500.0,105.3
+DST-0087,Kaveri Trading Co.,South,Telangana,Urban Distributor,935432.39,1017414.22,1227750.0,82.9
+DST-0088,Mahalaxmi Trading Co.,South,Telangana,Rural Distributor,984233.91,956837.02,1048500.0,91.3
+DST-0089,Metro Agencies,South,Kerala,Urban Distributor,3584870.01,3604906.0,3672000.0,98.2
+DST-0090,Ganesh Traders,South,Kerala,Key Account Distributor,11561048.55,11742702.2,11920500.0,98.5
+DST-0091,Hanuman Sales Corporation,South,Kerala,Urban Distributor,1401138.26,1492962.31,1781500.0,83.8
+DST-0092,Mahalaxmi Associates,South,Andhra Pradesh,Urban Distributor,968976.37,968827.25,953500.0,101.6
+DST-0093,Shree Balaji Distributors,South,Andhra Pradesh,Rural Distributor,1658720.23,1741036.4,1690500.0,103.0
+DST-0094,Kaveri Distributors,South,Andhra Pradesh,Urban Distributor,2323302.7,2348812.59,2584000.0,90.9
+DST-0095,Prime Agencies,South,Andhra Pradesh,Urban Distributor,2703888.92,2564468.21,2549000.0,100.6
+DST-0096,National Sales Corporation,South,Andhra Pradesh,Urban Distributor,2892663.8,2887787.92,3114500.0,92.7
+DST-0097,Hanuman Associates,East,West Bengal,Urban Distributor,2924585.73,3001770.51,3278500.0,91.6
+DST-0098,Himalaya Traders,East,West Bengal,Key Account Distributor,11129878.04,10708455.71,10805500.0,99.1
+DST-0099,Galaxy Marketing,East,West Bengal,Urban Distributor,4337565.6,4385703.98,4283000.0,102.4
+DST-0100,Radhe Sales Corporation,East,West Bengal,Rural Distributor,2196039.93,2179558.24,2078500.0,104.9
+DST-0101,Metro Distributors,East,West Bengal,Rural Distributor,944900.55,904388.42,825000.0,109.6
+DST-0102,Pioneer Marketing,East,West Bengal,Urban Distributor,2139228.69,2149540.36,2255500.0,95.3
+DST-0103,Narmada Distributors,East,West Bengal,Urban Distributor,1277301.89,1349555.07,1410500.0,95.7
+DST-0104,Ganga Traders,East,West Bengal,Urban Distributor,3991250.5,4078976.47,3876000.0,105.2
+DST-0105,Supreme Distributors,East,West Bengal,Rural Distributor,1525833.13,1642413.18,2081500.0,78.9
+DST-0106,Siddhi Traders,East,Bihar,Urban Distributor,1154882.88,1171225.34,1071000.0,109.4
+DST-0107,Ganesh Trading Co.,East,Bihar,Urban Distributor,3212526.03,3251329.84,3092000.0,105.2
+DST-0108,Krishna Enterprises,East,Bihar,Urban Distributor,3921895.71,3984850.4,4434500.0,89.9
+DST-0109,Prime Associates,East,Odisha,Urban Distributor,2132205.2,1976480.27,2272500.0,87.0
+DST-0110,Sri Venkateswara Distributors,East,Odisha,Urban Distributor,1866820.99,1904279.77,1640000.0,116.1
+DST-0111,Vindhya Sales Corporation,East,Odisha,Urban Distributor,1121683.47,1207678.95,1438000.0,84.0
+DST-0112,Maa Durga Traders,East,Jharkhand,Urban Distributor,2933922.09,3011008.21,2819000.0,106.8
+DST-0113,Shiv Shakti Marketing,East,Jharkhand,Urban Distributor,3032399.41,2927767.97,3022500.0,96.9
+DST-0114,Galaxy Enterprises,East,Jharkhand,Rural Distributor,1361813.79,1349355.54,1517000.0,88.9
+DST-0115,Supreme Enterprises,East,Assam,Urban Distributor,1752176.78,1931678.02,1994000.0,96.9
+DST-0116,Maa Durga Associates,East,Assam,Urban Distributor,2234673.23,2290396.95,2415500.0,94.8
+DST-0117,National Marketing,East,Assam,Urban Distributor,1425395.88,1529997.28,2067000.0,74.0
+DST-0118,Prime Sales Corporation,East,Assam,Urban Distributor,1847510.51,1793368.42,1678500.0,106.8

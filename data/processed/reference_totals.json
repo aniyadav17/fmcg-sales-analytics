@@ -1,0 +1,47 @@
+{
+ "netSalesByYearType": {
+  "2021": {
+   "Primary": 189904596.71,
+   "Sales Return": -2370655.71,
+   "Secondary": 185336978.31
+  },
+  "2022": {
+   "Primary": 224828932.52,
+   "Sales Return": -3119918.99,
+   "Secondary": 230216724.93
+  },
+  "2023": {
+   "Primary": 267296570.5,
+   "Sales Return": -3668988.35,
+   "Secondary": 272142369.13
+  },
+  "2024": {
+   "Primary": 305275160.96,
+   "Sales Return": -4257691.51,
+   "Secondary": 311121976.06
+  },
+  "2025": {
+   "Primary": 346822969.06,
+   "Sales Return": -5014244.76,
+   "Secondary": 357953222.93
+  }
+ },
+ "netSecondary2025ByRegion": {
+  "Central": 16799689.58,
+  "East": 58729779.03,
+  "North": 83894976.81,
+  "South": 88677697.2,
+  "West": 104836835.55
+ },
+ "targetByYear": {
+  "2021": 192322750.0,
+  "2022": 220707250.0,
+  "2023": 271806750.0,
+  "2024": 318313500.0,
+  "2025": 363701500.0
+ },
+ "stockValueDec2025": 39261739.16,
+ "stockOutLinesDec2025": 229,
+ "outstandingDec2025": 31308599.01,
+ "secondaryOrders2025": 70894
+}

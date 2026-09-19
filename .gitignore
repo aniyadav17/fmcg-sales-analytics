@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+.vscode/
+__pycache__/
+# raw extracts are large and fully reproducible: python data/generate_data.py
+data/raw/
+data/processed/monthly_sales_summary.csv
+*.tsbuildinfo
