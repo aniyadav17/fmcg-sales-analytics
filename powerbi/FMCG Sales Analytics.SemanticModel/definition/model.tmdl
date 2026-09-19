@@ -1,0 +1,28 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode","MCP-PBIModeling"]
+
+ref table Distributor
+ref table Salesperson
+ref table Beat
+ref table Outlet
+ref table Product
+ref table Category
+ref table Sales
+ref table Targets
+ref table Stock
+ref table Collections
+ref table Date
+ref table KPI
+
+ref cultureInfo en-US
+

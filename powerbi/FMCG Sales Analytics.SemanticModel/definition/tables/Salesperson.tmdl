@@ -1,0 +1,40 @@
+/// Salesperson master.
+table Salesperson
+	lineageTag: c3f186f1-3d9e-45e3-94cd-2db4260209c2
+
+	column 'Salesperson ID'
+		dataType: string
+		lineageTag: c0d3c965-ed01-41fe-8997-914a440307b1
+		sourceColumn: Salesperson ID
+
+	column 'Salesperson Name'
+		dataType: string
+		lineageTag: c9dfa198-be3f-426b-9fe3-b04953154f81
+		sourceColumn: Salesperson Name
+
+	column 'Distributor ID'
+		dataType: string
+		lineageTag: d17fbf34-2e30-407b-9008-9f0ffe363756
+		sourceColumn: Distributor ID
+
+	column 'Distributor Name'
+		dataType: string
+		lineageTag: 6760c4b8-3f58-437c-ada4-83124d0bb957
+		sourceColumn: Distributor Name
+
+	column Status
+		dataType: string
+		lineageTag: a69bb6c0-fa22-4e1f-b0b3-e3abcf95c8f3
+		sourceColumn: Status
+
+	partition Salesperson = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_salesperson.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.TransformColumnNames(Headers, each Text.Replace(_, "_", " ")),
+				    Typed = Table.TransformColumnTypes(Renamed, {{"Salesperson ID", type text}, {"Salesperson Name", type text}, {"Distributor ID", type text}, {"Distributor Name", type text}, {"Status", type text}}, "en-US")
+				in
+				    Typed
+

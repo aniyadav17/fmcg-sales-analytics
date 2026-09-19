@@ -13,7 +13,7 @@ exception centre. Everything is computed in the browser, so it needs no backend.
 ---
 
 ## Contents
-[Business problem](#business-problem) · [What the dashboard answers](#what-the-dashboard-answers) · [Pages](#pages) · [Dataset](#dataset) · [Data model](#data-model) · [Architecture](#architecture) · [KPIs](#kpi-definitions) · [Key insights](#key-business-insights) · [Interview walkthrough](#interview-walkthrough) · [Tech stack](#technology-stack) · [Run locally](#run-locally) · [Deploy](#deploy) · [Use real data](#replacing-the-dummy-data-with-real-data) · [Structure](#repository-structure) · [Future enhancements](#future-enhancements)
+[Business problem](#business-problem) · [What the dashboard answers](#what-the-dashboard-answers) · [Pages](#pages) · [Dataset](#dataset) · [Data model](#data-model) · [Architecture](#architecture) · [KPIs](#kpi-definitions) · [Key insights](#key-business-insights) · [Interview walkthrough](#interview-walkthrough) · [Power BI](#power-bi-version) · [Tech stack](#technology-stack) · [Run locally](#run-locally) · [Deploy](#deploy) · [Use real data](#replacing-the-dummy-data-with-real-data) · [Structure](#repository-structure) · [Future enhancements](#future-enhancements)
 
 ---
 
@@ -221,6 +221,18 @@ There are 30 KPIs, each with a definition, formula and business interpretation. 
   reconciliation tests (pandas vs the TypeScript engine). Also explain the target grain decision (salesperson ×
   category, disaggregated with a plan mix) and why productivity is measured monthly.
 
+## Power BI version
+The same analysis is also available as a **Power BI Desktop project** in [`powerbi/`](powerbi). It has 7 pages:
+Executive, Sales Performance, Distributor, Salesperson & Beat, Product & SKU, Inventory and Collections, each with KPI
+cards and tables.
+
+- **Model:** a star-schema semantic model with 11 tables and 16 relationships, plus about 70 DAX measures (time
+  intelligence, targets, monthly outlet productivity, stock cover and receivables).
+- **Data:** it reads the clean extracts that `data/build_dataset.py` writes to `data/processed/powerbi/`, so its 2025
+  KPIs match the web dashboard exactly.
+
+Setup steps are in [powerbi/README.md](powerbi/README.md).
+
 ## Technology stack
 | Layer | Tools |
 |---|---|
@@ -228,6 +240,7 @@ There are 30 KPIs, each with a definition, formula and business interpretation. 
 | Front end | **React 19, TypeScript (strict), Vite**, React Router (hash routing for static hosting) |
 | Visualisation | **Recharts** with a colour-blind-validated categorical palette, status colours paired with icons, dark mode |
 | Styling | **Tailwind CSS v4** with design tokens |
+| Power BI | Power BI Desktop project (PBIP): TMDL semantic model, DAX measures, PBIR report pages |
 | Analytics engine | Custom TypeScript "semantic model": Power BI-style measures such as SPLY growth, achievement, distinct counts, targets at grain, and roll-ups |
 | Testing | **Vitest**: 20 reconciliation and business-rule tests |
 | CI/CD | **GitHub Actions → GitHub Pages** |
@@ -316,6 +329,7 @@ fmcg-sales-analytics/
 │   ├── pages/                       11 dashboard pages
 │   ├── state/                       data, filter and theme contexts
 │   └── utils/format.ts              ₹ Cr / L formatting
+├── powerbi/                         Power BI Desktop project (.pbip, TMDL model, 7 report pages)
 ├── docs/                            business_requirements.md · data_dictionary.md · kpi_definitions.md
 └── screenshots/
 ```

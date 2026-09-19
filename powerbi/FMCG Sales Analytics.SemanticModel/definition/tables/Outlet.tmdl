@@ -1,0 +1,71 @@
+/// Retail outlet master (outlet universe on beats).
+table Outlet
+	lineageTag: 5b9fab85-7365-4096-a665-a783f6a5c372
+
+	column 'Outlet ID'
+		dataType: string
+		lineageTag: 0ca2b5c2-4372-4b11-b726-ef585bbf7e11
+		sourceColumn: Outlet ID
+
+	column 'Outlet Name'
+		dataType: string
+		lineageTag: 4d722dab-d641-4b29-8025-0c9ba06ef3d7
+		sourceColumn: Outlet Name
+
+	column 'Outlet Type'
+		dataType: string
+		lineageTag: 44a38324-e331-46ad-acff-799560c11fa3
+		sourceColumn: Outlet Type
+
+	column Channel
+		dataType: string
+		lineageTag: 4b76d4d7-e630-4a1e-9657-2975949db6fe
+		sourceColumn: Channel
+
+	column City
+		dataType: string
+		lineageTag: c3db3957-3b7d-49a2-9e75-c3ae9b0499f4
+		sourceColumn: City
+
+	column 'Distributor ID'
+		dataType: string
+		lineageTag: 6406c48e-a7dd-49c0-be18-34e82fba0e1f
+		sourceColumn: Distributor ID
+
+	column 'Salesperson ID'
+		dataType: string
+		lineageTag: 17b0a7f6-47d0-424b-b3a1-66942d49acca
+		sourceColumn: Salesperson ID
+
+	column 'Beat ID'
+		dataType: string
+		lineageTag: 9b8bf002-2e2d-4b08-92d9-a84fa8f26164
+		sourceColumn: Beat ID
+
+	column 'Outlet Status'
+		dataType: string
+		lineageTag: 035748fd-df37-4b68-bbf0-7bb23c82e263
+		sourceColumn: Outlet Status
+
+	column 'Opening Date'
+		dataType: dateTime
+		lineageTag: 3a8de342-c51f-4f70-a7de-e4e7b48db77c
+		sourceColumn: Opening Date
+
+	column 'Closed Date'
+		dataType: dateTime
+		lineageTag: f1340565-fdeb-4167-838f-26a366cc4e76
+		sourceColumn: Closed Date
+
+	partition Outlet = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_outlet.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.TransformColumnNames(Headers, each Text.Replace(_, "_", " ")),
+				    Blanks = Table.ReplaceValue(Renamed, "", null, Replacer.ReplaceValue, {"Closed Date"}),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"Outlet ID", type text}, {"Outlet Name", type text}, {"Outlet Type", type text}, {"Channel", type text}, {"City", type text}, {"Distributor ID", type text}, {"Salesperson ID", type text}, {"Beat ID", type text}, {"Outlet Status", type text}, {"Opening Date", type date}, {"Closed Date", type date}}, "en-US")
+				in
+				    Typed
+

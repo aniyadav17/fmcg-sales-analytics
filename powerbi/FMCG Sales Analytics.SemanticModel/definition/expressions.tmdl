@@ -1,0 +1,4 @@
+/// Folder with the Power BI star-schema files produced by data/build_dataset.py
+expression DataFolder = "C:\fmcg-sales-analytics\data\processed\powerbi\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: f3ba3c11-fdbb-45e2-aad6-be2f19f41b04
+

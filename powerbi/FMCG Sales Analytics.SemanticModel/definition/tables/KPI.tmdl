@@ -1,0 +1,388 @@
+/// All report measures (the table itself holds no data).
+table KPI
+	lineageTag: f6e30df4-872d-4710-93f2-92b3f3d9be10
+
+	/// Net secondary sales (distributor to outlet) after trade discount, net of returns.
+	measure 'Secondary Sales' = CALCULATE(SUM(Sales[Net Sales]), KEEPFILTERS(Sales[Sales Type] IN {"Secondary", "Sales Return"}))
+		formatString: ₹ #,##0
+		displayFolder: 1. Sales
+		lineageTag: ba68b23a-7c69-40d8-892b-0a39791aa97c
+
+	/// Company to distributor billing at distributor price.
+	measure 'Primary Sales' = CALCULATE(SUM(Sales[Net Sales]), KEEPFILTERS(Sales[Sales Type] = "Primary"))
+		formatString: ₹ #,##0
+		displayFolder: 1. Sales
+		lineageTag: 055d56fe-4163-443d-95e3-db572aa262e7
+
+	measure 'Sales Returns' = -CALCULATE(SUM(Sales[Net Sales]), KEEPFILTERS(Sales[Sales Type] = "Sales Return"))
+		formatString: ₹ #,##0
+		displayFolder: 1. Sales
+		lineageTag: 7c9ebabc-4564-42e0-ad71-63eacbd313f2
+
+	measure 'Secondary Sales LY' = CALCULATE([Secondary Sales], SAMEPERIODLASTYEAR('Date'[Date]))
+		formatString: ₹ #,##0
+		displayFolder: 1. Sales
+		lineageTag: da1facd1-1776-4674-b35f-8535b6ccbb2f
+
+	/// Net secondary sales vs same period last year.
+	measure 'Growth %' = VAR _ly = [Secondary Sales LY] RETURN IF(NOT ISBLANK(_ly) && _ly <> 0, DIVIDE([Secondary Sales] - _ly, _ly))
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1. Sales
+		lineageTag: 6ee870fb-59ec-4bc3-b029-3568e6752ea7
+
+	measure 'Primary Sales LY' = CALCULATE([Primary Sales], SAMEPERIODLASTYEAR('Date'[Date]))
+		formatString: ₹ #,##0
+		displayFolder: 1. Sales
+		lineageTag: f479b1a7-e041-4236-a95e-c00bd107c194
+
+	measure 'Primary Growth %' = VAR _ly = [Primary Sales LY] RETURN IF(NOT ISBLANK(_ly) && _ly <> 0, DIVIDE([Primary Sales] - _ly, _ly))
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 1. Sales
+		lineageTag: 41d9068e-abd8-4f50-9b0f-97806bb562c0
+
+	measure 'Secondary Units' = CALCULATE(SUM(Sales[Quantity]), KEEPFILTERS(Sales[Sales Type] IN {"Secondary", "Sales Return"}))
+		formatString: #,##0
+		displayFolder: 1. Sales
+		lineageTag: 3023ab09-cdfe-4575-9e88-18d64e7d4c57
+
+	measure 'Secondary Cost' = CALCULATE(SUM(Sales[Cost]), KEEPFILTERS(Sales[Sales Type] IN {"Secondary", "Sales Return"}))
+		formatString: ₹ #,##0
+		isHidden
+		displayFolder: 1. Sales
+		lineageTag: 59c7d36e-5318-467a-9c14-72a66ce7e21c
+
+	measure 'Gross Margin' = [Secondary Sales] - [Secondary Cost]
+		formatString: ₹ #,##0
+		displayFolder: 1. Sales
+		lineageTag: b67ad321-0a0d-4ee9-a75e-c375806429dd
+
+	measure 'Gross Margin %' = DIVIDE([Gross Margin], [Secondary Sales])
+		formatString: 0.0%
+		displayFolder: 1. Sales
+		lineageTag: 69878157-d781-4085-8b0f-23b612c0646f
+
+	/// Share of the visual total.
+	measure 'Contribution %' = DIVIDE([Secondary Sales], CALCULATE([Secondary Sales], ALLSELECTED()))
+		formatString: 0.0%
+		displayFolder: 1. Sales
+		lineageTag: 37e654a3-0973-4da5-aeac-5ccac0ab8935
+
+	/// Net secondary target (salesperson x category x month).
+	measure Target = SUM(Targets[Target Amount])
+		formatString: ₹ #,##0
+		displayFolder: 2. Targets
+		lineageTag: b89dde21-4075-4cdf-af8f-28c3dee50870
+
+	measure 'Achievement %' = DIVIDE([Secondary Sales], [Target])
+		formatString: 0.0%
+		displayFolder: 2. Targets
+		lineageTag: da91fc86-95e9-4405-a696-f4fe586588d4
+
+	measure 'Variance to Target' = IF(NOT ISBLANK([Target]), [Secondary Sales] - [Target])
+		formatString: ₹ #,##0
+		displayFolder: 2. Targets
+		lineageTag: 91ce465f-17ef-4919-a3de-8e0f2b5ee4a0
+
+	measure 'Active Distributors' = CALCULATE(DISTINCTCOUNT(Sales[Distributor ID]), KEEPFILTERS(Sales[Sales Type] IN {"Primary", "Secondary"}))
+		formatString: #,##0
+		displayFolder: 3. Distribution
+		lineageTag: bf8d1bd5-ddc8-4abc-8932-4767098c3537
+
+	/// Distinct secondary invoices.
+	measure Orders = CALCULATE(DISTINCTCOUNT(Sales[Invoice No]), KEEPFILTERS(Sales[Sales Type] = "Secondary"))
+		formatString: #,##0
+		displayFolder: 3. Distribution
+		lineageTag: e91beb34-bb02-450d-865a-3b2cc6ebd7ac
+
+	measure 'Secondary Billing' = CALCULATE(SUM(Sales[Net Sales]), KEEPFILTERS(Sales[Sales Type] = "Secondary"))
+		formatString: ₹ #,##0
+		isHidden
+		displayFolder: 3. Distribution
+		lineageTag: ff55c00c-6d44-4b25-ab10-55d106281717
+
+	measure 'Avg Order Value' = DIVIDE([Secondary Billing], [Orders])
+		formatString: ₹ #,##0
+		displayFolder: 3. Distribution
+		lineageTag: 9477ad38-dfd9-4247-86df-13c3af2ec03a
+
+	measure 'Lines per Call' = DIVIDE(CALCULATE(COUNTROWS(Sales), KEEPFILTERS(Sales[Sales Type] = "Secondary")), [Orders])
+		formatString: 0.0
+		displayFolder: 3. Distribution
+		lineageTag: bbc29549-0d5a-478d-86d4-e49d0e4ac678
+
+	/// Outlets billed in a month, averaged over the months of the period.
+	measure 'Productive Outlets' =
+			VAR _months = VALUES('Date'[Month Start])
+			RETURN DIVIDE(SUMX(_months, CALCULATE(DISTINCTCOUNT(Sales[Outlet ID]), KEEPFILTERS(Sales[Sales Type] = "Secondary"))), COUNTROWS(_months))
+		formatString: #,##0
+		displayFolder: 3. Distribution
+		lineageTag: 8bde2663-de17-4892-a32f-ba8f9e8ff23d
+
+	/// Outlets on beat and open in the month, averaged over the months of the period.
+	measure 'Active Outlets' =
+			VAR _months = VALUES('Date'[Month Start])
+			VAR _dist = VALUES(Distributor[Distributor ID])
+			VAR _sp = VALUES(Salesperson[Salesperson ID])
+			VAR _beat = VALUES(Beat[Beat ID])
+			VAR _total = SUMX(_months,
+			    VAR _ms = 'Date'[Month Start]
+			    VAR _me = EOMONTH(_ms, 0)
+			    RETURN CALCULATE(COUNTROWS(Outlet),
+			        REMOVEFILTERS('Date'),
+			        Outlet[Opening Date] <= _me,
+			        OR(ISBLANK(Outlet[Closed Date]), Outlet[Closed Date] >= _ms),
+			        TREATAS(_dist, Outlet[Distributor ID]),
+			        TREATAS(_sp, Outlet[Salesperson ID]),
+			        TREATAS(_beat, Outlet[Beat ID])))
+			RETURN DIVIDE(_total, COUNTROWS(_months))
+		formatString: #,##0
+		displayFolder: 3. Distribution
+		lineageTag: 9eb315f7-6bfb-4d79-9cc1-7c98be548f88
+
+	measure 'Outlet Productivity %' = DIVIDE([Productive Outlets], [Active Outlets])
+		formatString: 0.0%
+		displayFolder: 3. Distribution
+		lineageTag: a7cdf972-2bbd-4fad-8ca5-c04ca58b5dce
+
+	measure 'Sales per Outlet' = DIVIDE([Secondary Billing], CALCULATE(DISTINCTCOUNT(Sales[Outlet ID]), KEEPFILTERS(Sales[Sales Type] = "Secondary")))
+		formatString: ₹ #,##0
+		displayFolder: 3. Distribution
+		lineageTag: 95a4374d-3119-4904-81d0-64bd8d8327b1
+
+	measure 'Active SKUs' = CALCULATE(DISTINCTCOUNT(Sales[SKU ID]), KEEPFILTERS(Sales[Sales Type] = "Secondary"))
+		formatString: #,##0
+		displayFolder: 4. Product
+		lineageTag: 12fbb7c7-8785-47ca-8165-0cec88e257da
+
+	measure 'Stock Date' = EOMONTH(MAX('Date'[Date]), 0)
+		formatString: dd-MMM-yyyy
+		isHidden
+		displayFolder: 5. Stock
+		lineageTag: 0ad8fc39-5ba8-4d04-a662-c5d8b0cfe7c9
+
+	/// Distributor closing stock at distributor price, at the month-end of the selected period.
+	measure 'Stock Value' = VAR _d = [Stock Date] RETURN CALCULATE(SUM(Stock[Stock Value]), REMOVEFILTERS('Date'), Stock[Snapshot Date] = _d)
+		formatString: ₹ #,##0
+		displayFolder: 5. Stock
+		lineageTag: 14f09447-bffa-4d87-9d90-ff622b7d8255
+
+	measure 'Stock 3M Sales PTD' = VAR _d = [Stock Date] RETURN CALCULATE(SUM(Stock[Sales 3M Value PTD]), REMOVEFILTERS('Date'), Stock[Snapshot Date] = _d)
+		formatString: ₹ #,##0
+		isHidden
+		displayFolder: 5. Stock
+		lineageTag: 742ce28d-12b9-43d4-8bb5-623e9c6b9c51
+
+	/// Closing stock / average daily secondary of the last 3 months.
+	measure 'Stock Cover Days' = DIVIDE([Stock Value], DIVIDE([Stock 3M Sales PTD], 91))
+		formatString: 0
+		displayFolder: 5. Stock
+		lineageTag: 1c1b6ef5-f5b6-4c1b-976f-f454fb797d20
+
+	measure 'Stock Lines' = VAR _d = [Stock Date] RETURN CALCULATE(COUNTROWS(Stock), REMOVEFILTERS('Date'), Stock[Snapshot Date] = _d)
+		formatString: #,##0
+		displayFolder: 5. Stock
+		lineageTag: 6a00c490-87db-447e-82cc-7edd387f3cd7
+
+	measure 'Stock-out Lines' = CALCULATE([Stock Lines], KEEPFILTERS(Stock[Stock Status] = "Stock-out"))
+		formatString: #,##0
+		displayFolder: 5. Stock
+		lineageTag: a50d8ce2-6d15-4ae2-8f9a-fb839a0f5e18
+
+	measure 'Stock-out %' = DIVIDE([Stock-out Lines], [Stock Lines])
+		formatString: 0.0%
+		displayFolder: 5. Stock
+		lineageTag: 4f66eada-542c-45d6-8c2d-bcb18c960298
+
+	measure 'Slow & Non-moving Value' = CALCULATE([Stock Value], KEEPFILTERS(Stock[Stock Status] IN {"Slow-moving", "Non-moving"}))
+		formatString: ₹ #,##0
+		displayFolder: 5. Stock
+		lineageTag: 48aacbce-f0e2-498d-91bc-c6ef31904772
+
+	measure 'Aged 90+ Value' = VAR _d = [Stock Date] RETURN CALCULATE(SUM(Stock[Aged 90 Plus Value]), REMOVEFILTERS('Date'), Stock[Snapshot Date] = _d)
+		formatString: ₹ #,##0
+		displayFolder: 5. Stock
+		lineageTag: a9c4a61a-c6c3-4fde-97df-76d89e74f796
+
+	measure 'Share of Stock Value %' = DIVIDE([Stock Value], CALCULATE([Stock Value], ALLSELECTED(Stock[Stock Status])))
+		formatString: 0.0%
+		displayFolder: 5. Stock
+		lineageTag: d1ca0b6d-f94c-4896-a580-edf2ac8fb9aa
+
+	/// Primary invoices raised in the period (incl. GST).
+	measure 'Invoice Amount' = SUM(Collections[Invoice Amount])
+		formatString: ₹ #,##0
+		displayFolder: 6. Collections
+		lineageTag: c8e9cc0f-1750-4ed4-87e6-b85048500ceb
+
+	measure 'Collected Amount' = SUM(Collections[Collected Amount])
+		formatString: ₹ #,##0
+		displayFolder: 6. Collections
+		lineageTag: 72d1d549-e9e3-4b99-8b5e-24a7ae0b8e03
+
+	measure 'Collection %' = DIVIDE([Collected Amount], [Invoice Amount])
+		formatString: 0.0%
+		displayFolder: 6. Collections
+		lineageTag: 92f2fcca-4a69-41ab-b4f7-e70bb4973a97
+
+	/// Unpaid balance of all invoices as of 31-Dec-2025 (ignores the period filter).
+	measure Outstanding = VAR _v = CALCULATE(SUM(Collections[Outstanding Amount]), REMOVEFILTERS('Date')) RETURN IF(_v > 0, _v)
+		formatString: ₹ #,##0
+		displayFolder: 6. Collections
+		lineageTag: 0718beda-dc54-43e0-8fc0-83f58e8ee6ee
+
+	/// Outstanding past due date as of 31-Dec-2025.
+	measure Overdue = VAR _v = CALCULATE(SUM(Collections[Overdue Amount]), REMOVEFILTERS('Date')) RETURN IF(_v > 0, _v)
+		formatString: ₹ #,##0
+		displayFolder: 6. Collections
+		lineageTag: 9e5e6556-18c1-4858-ad43-7942dbdb8920
+
+	measure 'Overdue 90+' = CALCULATE([Outstanding], KEEPFILTERS(Collections[Ageing Bucket] = "90+"))
+		formatString: ₹ #,##0
+		displayFolder: 6. Collections
+		lineageTag: 14fc03f0-ec9f-46c1-a8b0-6fb8c77a16bc
+
+	measure 'Open Invoices' = CALCULATE(COUNTROWS(Collections), REMOVEFILTERS('Date'), Collections[Outstanding Amount] > 0)
+		formatString: #,##0
+		displayFolder: 6. Collections
+		lineageTag: 3946eb38-5301-40ed-9f72-f122191ecea3
+
+	measure 'Avg Days to Collect' = DIVIDE(SUM(Collections[Paid x Days]), [Collected Amount])
+		formatString: 0.0
+		displayFolder: 6. Collections
+		lineageTag: 8a5be267-646a-499a-a99d-c191b6ef26b3
+
+	measure 'Credit Utilisation %' = DIVIDE([Outstanding], SUM(Distributor[Credit Limit]))
+		formatString: 0%
+		displayFolder: 6. Collections
+		lineageTag: 045e9ab5-42f7-4b0a-9f65-a547cd02cfd6
+
+	measure 'Share of Outstanding %' = DIVIDE([Outstanding], CALCULATE([Outstanding], ALLSELECTED(Collections[Ageing Bucket])))
+		formatString: 0.0%
+		displayFolder: 6. Collections
+		lineageTag: b2165a09-bf36-497f-8479-7890ce3397ad
+
+	measure 'Secondary Sales (Cr)' = DIVIDE([Secondary Sales], 10000000)
+		formatString: """₹ ""0.00"" Cr"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: d0c7fddc-81ec-47e4-a46e-4f8813f672cd
+
+	measure 'Primary Sales (Cr)' = DIVIDE([Primary Sales], 10000000)
+		formatString: """₹ ""0.00"" Cr"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: bf1bc9bb-2eed-493b-8077-a37fafdbd6cb
+
+	measure 'Target (Cr)' = DIVIDE([Target], 10000000)
+		formatString: """₹ ""0.00"" Cr"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: 4f97a162-b331-4af3-805d-b52cf8138cb3
+
+	measure 'Variance to Target (Cr)' = DIVIDE([Variance to Target], 10000000)
+		formatString: """₹ ""0.00"" Cr"";""-₹ ""0.00"" Cr"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: f4752a03-b6dd-4c71-b6d0-7fc598d0b12c
+
+	measure 'Gross Margin (Cr)' = DIVIDE([Gross Margin], 10000000)
+		formatString: """₹ ""0.00"" Cr"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: 9bc92228-3ac5-4225-b2e0-0b2d63bf2543
+
+	measure 'Stock Value (Cr)' = DIVIDE([Stock Value], 10000000)
+		formatString: """₹ ""0.00"" Cr"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: 0d85723e-5245-411d-b88d-10250a9a4b6c
+
+	measure 'Invoice Amount (Cr)' = DIVIDE([Invoice Amount], 10000000)
+		formatString: """₹ ""0.00"" Cr"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: a18580b0-1d0b-4a25-bcba-47e1c0359ff9
+
+	measure 'Collected Amount (Cr)' = DIVIDE([Collected Amount], 10000000)
+		formatString: """₹ ""0.00"" Cr"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: 3dc26d3d-bb5f-417a-8fe2-ad8b701c6c1e
+
+	measure 'Outstanding (Cr)' = DIVIDE([Outstanding], 10000000)
+		formatString: """₹ ""0.00"" Cr"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: a030271e-b930-409e-ba65-da8cf39afdfe
+
+	measure 'Overdue (Cr)' = DIVIDE([Overdue], 10000000)
+		formatString: """₹ ""0.00"" Cr"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: 71103342-e952-4c3b-9071-a1b862eb284d
+
+	measure 'Slow & Non-moving Value (L)' = DIVIDE([Slow & Non-moving Value], 100000)
+		formatString: """₹ ""#,##0.0"" L"""
+		displayFolder: 7. Display (Cr)
+		lineageTag: 13b559ab-ccd8-4f5e-af20-af0c530326a9
+
+	measure 'Secondary Sales (₹ L)' = DIVIDE([Secondary Sales], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: bae013f3-93aa-4b39-82d1-31fe10996cab
+
+	measure 'Primary Sales (₹ L)' = DIVIDE([Primary Sales], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: c04eb691-de98-4e7d-885e-cb8a9d79c6e1
+
+	measure 'Target (₹ L)' = DIVIDE([Target], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: 0a11c8da-b84c-46e5-b461-afa61f907070
+
+	measure 'Variance (₹ L)' = DIVIDE([Variance to Target], 100000)
+		formatString: #,##0.0;-#,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: 58ca185d-adbe-4ee9-ad04-e4a0f32edcee
+
+	measure 'Gross Margin (₹ L)' = DIVIDE([Gross Margin], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: 03911bd3-bd8b-4080-afe5-3f3c0976f7d3
+
+	measure 'Stock Value (₹ L)' = DIVIDE([Stock Value], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: 1eba0fec-abc5-44a4-89bb-5d9ad9eddf46
+
+	measure 'Slow & Non-moving (₹ L)' = DIVIDE([Slow & Non-moving Value], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: 6585192c-d3b6-4ca7-a8b6-1da82d1a1848
+
+	measure 'Aged 90+ (₹ L)' = DIVIDE([Aged 90+ Value], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: e33e3210-357a-47cc-bd19-c26923feeb59
+
+	measure 'Invoice Amount (₹ L)' = DIVIDE([Invoice Amount], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: eae0fb00-f111-4d77-af33-8d1c5a1b2d40
+
+	measure 'Collected (₹ L)' = DIVIDE([Collected Amount], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: 993fb737-82dd-4d4d-be55-81bd28c346c8
+
+	measure 'Outstanding (₹ L)' = DIVIDE([Outstanding], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: 5641c0cb-c55e-41e2-9f77-21c8d17fcfbb
+
+	measure 'Overdue (₹ L)' = DIVIDE([Overdue], 100000)
+		formatString: #,##0.0
+		displayFolder: 8. Display (₹ L)
+		lineageTag: d222e753-373d-4116-86fd-fe5373d56cf4
+
+	column KPI
+		isHidden
+		lineageTag: 6c189b62-9606-4f10-8c67-1c0129681d59
+		isNameInferred
+		sourceColumn: [KPI]
+
+	partition KPI = calculated
+		mode: import
+		source = ROW("KPI", BLANK())
+

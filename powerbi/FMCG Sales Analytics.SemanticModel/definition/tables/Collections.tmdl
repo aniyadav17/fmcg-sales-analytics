@@ -1,0 +1,81 @@
+/// Primary invoices with collection status as of the report date (31-Dec-2025).
+table Collections
+	lineageTag: c0998096-ca7a-4013-a25e-84ed45a65ec3
+
+	column 'Invoice No'
+		dataType: string
+		lineageTag: 7177f25d-cd07-415d-a0d4-a68d76742045
+		sourceColumn: Invoice No
+
+	column 'Distributor ID'
+		dataType: string
+		isHidden
+		lineageTag: bc71a9e1-3776-4464-8225-628c2cadea96
+		sourceColumn: Distributor ID
+
+	column 'Invoice Date'
+		dataType: dateTime
+		isHidden
+		lineageTag: b083faca-a74c-446d-adbd-25dcc39b66f5
+		sourceColumn: Invoice Date
+
+	column 'Due Date'
+		dataType: dateTime
+		lineageTag: b86d4188-4c8b-41fa-885a-d3cd897a4819
+		sourceColumn: Due Date
+
+	column 'Invoice Amount'
+		dataType: double
+		lineageTag: 1a366b7e-7643-46a8-8f6f-a9395aeea4f9
+		sourceColumn: Invoice Amount
+
+	column 'Collected Amount'
+		dataType: double
+		lineageTag: 80e365ed-a544-45af-b3f7-d4ff29482a5b
+		sourceColumn: Collected Amount
+
+	column 'Outstanding Amount'
+		dataType: double
+		lineageTag: a5ffb671-16c1-48a1-90f5-d3ba255e0be7
+		sourceColumn: Outstanding Amount
+
+	column 'Overdue Amount'
+		dataType: double
+		lineageTag: 15a7ee53-7dc5-4561-82bf-79bcbca9a80d
+		sourceColumn: Overdue Amount
+
+	column 'Days Past Due'
+		dataType: int64
+		lineageTag: 168fbb81-0187-4a82-b3dc-abe105c3ae26
+		summarizeBy: none
+		sourceColumn: Days Past Due
+
+	column 'Ageing Bucket'
+		dataType: string
+		lineageTag: d4683fa4-f93e-41d9-97af-e44b7af03648
+		sourceColumn: Ageing Bucket
+		sortByColumn: 'Ageing Order'
+
+	column 'Ageing Order'
+		dataType: int64
+		isHidden
+		lineageTag: 625082c5-a111-4679-863b-a30887e5d6d9
+		summarizeBy: none
+		sourceColumn: Ageing Order
+
+	column 'Paid x Days'
+		dataType: double
+		lineageTag: 42c25275-4adf-4afa-b3d6-1f597cf85f91
+		sourceColumn: Paid x Days
+
+	partition Collections = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "fact_collections.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.TransformColumnNames(Headers, each Text.Replace(_, "_", " ")),
+				    Typed = Table.TransformColumnTypes(Renamed, {{"Invoice No", type text}, {"Distributor ID", type text}, {"Invoice Date", type date}, {"Due Date", type date}, {"Invoice Amount", type number}, {"Collected Amount", type number}, {"Outstanding Amount", type number}, {"Overdue Amount", type number}, {"Days Past Due", Int64.Type}, {"Ageing Bucket", type text}, {"Ageing Order", Int64.Type}, {"Paid x Days", type number}}, "en-US")
+				in
+				    Typed
+

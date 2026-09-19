@@ -1,0 +1,44 @@
+/// Monthly net secondary targets at Salesperson x Category grain.
+table Targets
+	lineageTag: 993b5677-fe72-4bca-8a4f-df2bc8054c36
+
+	column 'Month Date'
+		dataType: dateTime
+		isHidden
+		lineageTag: e6cc5a0b-0a31-4054-a519-d04129bffad7
+		sourceColumn: Month Date
+
+	column 'Salesperson ID'
+		dataType: string
+		isHidden
+		lineageTag: cdd3f3d4-f07c-4129-b15e-2fce5603ee84
+		sourceColumn: Salesperson ID
+
+	column 'Distributor ID'
+		dataType: string
+		isHidden
+		lineageTag: 315d258a-9ba7-4ce0-b56e-f6ee5d43202b
+		sourceColumn: Distributor ID
+
+	column Category
+		dataType: string
+		isHidden
+		lineageTag: 29be5dbf-d483-4f32-a464-a9cd48530d8d
+		sourceColumn: Category
+
+	column 'Target Amount'
+		dataType: double
+		lineageTag: 5ba1b006-8731-430f-8b1b-282e7e9fe51d
+		sourceColumn: Target Amount
+
+	partition Targets = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "fact_targets.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.TransformColumnNames(Headers, each Text.Replace(_, "_", " ")),
+				    Typed = Table.TransformColumnTypes(Renamed, {{"Month Date", type date}, {"Salesperson ID", type text}, {"Distributor ID", type text}, {"Category", type text}, {"Target Amount", type number}}, "en-US")
+				in
+				    Typed
+

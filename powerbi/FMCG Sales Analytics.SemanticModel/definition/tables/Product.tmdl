@@ -1,0 +1,56 @@
+/// SKU master: SKU > Brand > Sub-category > Category.
+table Product
+	lineageTag: dd0a65f6-45f2-4bbe-aa76-cb3f2c8a07bc
+
+	column 'SKU ID'
+		dataType: string
+		lineageTag: b94229fb-6657-4c27-b8ae-392d0fb2fd74
+		sourceColumn: SKU ID
+
+	column 'SKU Code'
+		dataType: string
+		lineageTag: b63de39c-1f6d-4fde-afd4-61e0a570af30
+		sourceColumn: SKU Code
+
+	column 'Product Name'
+		dataType: string
+		lineageTag: 270999f5-6007-4eb8-ac7b-c2ca666ac85c
+		sourceColumn: Product Name
+
+	column Brand
+		dataType: string
+		lineageTag: b514628b-418e-438b-9673-839c90768ae7
+		sourceColumn: Brand
+
+	column Category
+		dataType: string
+		isHidden
+		lineageTag: a9414d32-3a63-49d7-b9a8-4e942ea6e6e8
+		sourceColumn: Category
+
+	column 'Sub Category'
+		dataType: string
+		lineageTag: 26594f01-1e04-4713-9eb3-7ffb248112d7
+		sourceColumn: Sub Category
+
+	column Pack
+		dataType: string
+		lineageTag: f9d7f7ec-7c41-42fa-abc9-b51896bd64d8
+		sourceColumn: Pack
+
+	column 'Product Status'
+		dataType: string
+		lineageTag: bbee4863-a25e-4ced-99ba-9283dc306831
+		sourceColumn: Product Status
+
+	partition Product = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_product.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.TransformColumnNames(Headers, each Text.Replace(_, "_", " ")),
+				    Typed = Table.TransformColumnTypes(Renamed, {{"SKU ID", type text}, {"SKU Code", type text}, {"Product Name", type text}, {"Brand", type text}, {"Category", type text}, {"Sub Category", type text}, {"Pack", type text}, {"Product Status", type text}}, "en-US")
+				in
+				    Typed
+

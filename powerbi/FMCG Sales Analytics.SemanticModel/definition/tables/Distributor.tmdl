@@ -1,0 +1,68 @@
+/// Distributor master with geography (Region > State > Territory).
+table Distributor
+	lineageTag: b8fa0752-988e-47e4-ac8b-2228eb297fa8
+
+	column 'Distributor ID'
+		dataType: string
+		lineageTag: 0cab4806-aa7f-49e1-8ea7-227cb1d34b30
+		sourceColumn: Distributor ID
+
+	column 'Distributor Name'
+		dataType: string
+		lineageTag: 5076202a-4eae-4478-96e5-e9b53a0dd70d
+		sourceColumn: Distributor Name
+
+	column Region
+		dataType: string
+		lineageTag: 56fa6f45-c92d-4dc1-b3e7-28f3473e2d88
+		sourceColumn: Region
+
+	column State
+		dataType: string
+		lineageTag: 83b12827-199c-48f1-aca0-aaf32d4d33c2
+		sourceColumn: State
+
+	column 'Territory Name'
+		dataType: string
+		lineageTag: 6be81dec-19a4-441f-b509-c8aa61fb6bfb
+		sourceColumn: Territory Name
+
+	column City
+		dataType: string
+		lineageTag: 448c874a-46e0-4f6e-b554-bbcb7ae087d3
+		sourceColumn: City
+
+	column 'Distributor Type'
+		dataType: string
+		lineageTag: aa05f78b-6b1a-464a-a03c-6df9bf8ccd5a
+		sourceColumn: Distributor Type
+
+	column 'Distributor Status'
+		dataType: string
+		lineageTag: de10c1fa-03a0-4e4f-b0d0-00b7c4dedd50
+		sourceColumn: Distributor Status
+
+	column 'Credit Limit'
+		dataType: double
+		formatString: ₹ #,##0
+		lineageTag: bcb803e8-dde8-4596-b5ec-93d9b2553327
+		summarizeBy: sum
+		sourceColumn: Credit Limit
+
+	column 'Credit Days'
+		dataType: int64
+		lineageTag: e573687e-63d9-4697-b733-6552c9b56573
+		summarizeBy: none
+		sourceColumn: Credit Days
+
+	partition Distributor = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_distributor.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.TransformColumnNames(Headers, each Text.Replace(_, "_", " ")),
+				    Typed = Table.TransformColumnTypes(Renamed, {{"Distributor ID", type text}, {"Distributor Name", type text}, {"Region", type text}, {"State", type text}, {"Territory Name", type text}, {"City", type text}, {"Distributor Type", type text}, {"Distributor Status", type text}, {"Credit Limit", type number}, {"Credit Days", Int64.Type}}, "en-US")
+				in
+				    Typed
+

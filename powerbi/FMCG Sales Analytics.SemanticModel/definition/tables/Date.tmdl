@@ -1,0 +1,76 @@
+/// Calendar Jan-2021 to Dec-2025 with Indian financial year (April-March).
+table Date
+	lineageTag: 6a0334a9-6032-40bd-b5ea-af10bf4389f0
+	dataCategory: Time
+
+	column Date
+		isUnique
+		formatString: dd-MMM-yyyy
+		lineageTag: 0695a516-9c2e-429f-8e53-b96dbc6a46d2
+		isNameInferred
+		sourceColumn: [Date]
+
+	column Year
+		formatString: 0
+		lineageTag: 67aa6eb0-ecfd-4bda-8d03-8da4e662b379
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year]
+
+	column 'Month No'
+		isHidden
+		lineageTag: a48a32b0-d7a8-4978-8d07-8f99f1138f91
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month No]
+
+	column Month
+		lineageTag: a5f18df7-260a-4aef-a5dc-97e58f94b3bc
+		isNameInferred
+		sourceColumn: [Month]
+		sortByColumn: 'Month No'
+
+	column 'Month Start'
+		formatString: MMM-yyyy
+		lineageTag: 216efc55-a4aa-40fb-b8c3-14a6a49fd81e
+		isNameInferred
+		sourceColumn: [Month Start]
+
+	column 'Month Year'
+		lineageTag: 0bcbd43e-1cf8-4cf9-b861-43657fe18233
+		isNameInferred
+		sourceColumn: [Month Year]
+		sortByColumn: 'Month Year Sort'
+
+	column 'Month Year Sort'
+		isHidden
+		lineageTag: 2e113e4c-9a08-4cec-bf2e-0ee872a0dd34
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Year Sort]
+
+	column Quarter
+		lineageTag: cfedbcb4-4ea0-4f3f-a31e-bb9b8d7624a9
+		isNameInferred
+		sourceColumn: [Quarter]
+
+	column 'Financial Year'
+		lineageTag: e4877980-bbde-4097-92ea-3ccd1cd0f7be
+		isNameInferred
+		sourceColumn: [Financial Year]
+
+	partition Date = calculated
+		mode: import
+		source =
+				ADDCOLUMNS(
+				    CALENDAR(DATE(2021, 1, 1), DATE(2025, 12, 31)),
+				    "Year", YEAR([Date]),
+				    "Month No", MONTH([Date]),
+				    "Month", FORMAT([Date], "MMM"),
+				    "Month Start", DATE(YEAR([Date]), MONTH([Date]), 1),
+				    "Month Year", FORMAT([Date], "MMM-yyyy"),
+				    "Month Year Sort", YEAR([Date]) * 100 + MONTH([Date]),
+				    "Quarter", "Q" & QUARTER([Date]),
+				    "Financial Year", VAR _y = IF(MONTH([Date]) >= 4, YEAR([Date]), YEAR([Date]) - 1) RETURN "FY " & _y & "-" & RIGHT(_y + 1, 2)
+				)
+

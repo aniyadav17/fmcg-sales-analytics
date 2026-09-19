@@ -1,0 +1,28 @@
+/// Product categories - shared by Product and Targets (targets are set per category).
+table Category
+	lineageTag: 9009c959-8ad4-4a12-8d86-8322bc044c52
+
+	column Category
+		dataType: string
+		lineageTag: 7a2dbdcb-75ba-4c8b-bbdc-21b49bb9e283
+		sourceColumn: Category
+		sortByColumn: 'Category Order'
+
+	column 'Category Order'
+		dataType: int64
+		isHidden
+		lineageTag: f04670cf-cc9c-41cb-a48a-656df6a5b027
+		summarizeBy: none
+		sourceColumn: Category Order
+
+	partition Category = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_category.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.TransformColumnNames(Headers, each Text.Replace(_, "_", " ")),
+				    Typed = Table.TransformColumnTypes(Renamed, {{"Category", type text}, {"Category Order", Int64.Type}}, "en-US")
+				in
+				    Typed
+

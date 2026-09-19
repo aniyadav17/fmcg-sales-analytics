@@ -1,0 +1,80 @@
+/// Clean invoice lines 2021-2025 (Primary / Secondary / Sales Return). Net Sales is after trade discount, before GST; returns are negative.
+table Sales
+	lineageTag: 94e423d3-b67c-45b8-8e30-5ba74b27a42e
+
+	column Date
+		dataType: dateTime
+		isHidden
+		lineageTag: 5b3acc39-0356-4a1e-ad32-5597a767179c
+		sourceColumn: Date
+
+	column 'Sales Type'
+		dataType: string
+		lineageTag: 60e3e309-f0fd-45e6-8075-cdb00bc2a89e
+		sourceColumn: Sales Type
+
+	column 'Invoice No'
+		dataType: string
+		lineageTag: 96bf6eff-6a53-4fec-be9c-5ce3014dd9b5
+		sourceColumn: Invoice No
+
+	column 'Distributor ID'
+		dataType: string
+		isHidden
+		lineageTag: 8b73c91e-3699-4dcb-a734-39b46478647b
+		sourceColumn: Distributor ID
+
+	column 'Salesperson ID'
+		dataType: string
+		isHidden
+		lineageTag: 10c81237-2949-4cee-a901-ff73f38d4229
+		sourceColumn: Salesperson ID
+
+	column 'Beat ID'
+		dataType: string
+		isHidden
+		lineageTag: 2ba5e035-1b11-4e39-80d0-441dfea3a29b
+		sourceColumn: Beat ID
+
+	column 'Outlet ID'
+		dataType: string
+		isHidden
+		lineageTag: e9df3c5a-eead-44f5-bde6-6a7f630d1bd8
+		sourceColumn: Outlet ID
+
+	column 'SKU ID'
+		dataType: string
+		isHidden
+		lineageTag: 276174c0-2bce-4970-bb5d-cf121cbc74e0
+		sourceColumn: SKU ID
+
+	column Quantity
+		dataType: int64
+		formatString: #,##0
+		lineageTag: bfe25456-7a46-4b98-931f-477980b7a4d3
+		sourceColumn: Quantity
+
+	column 'Net Sales'
+		dataType: double
+		formatString: ₹ #,##0
+		lineageTag: b812d663-2880-4db0-af65-9a0dd3093ee2
+		sourceColumn: Net Sales
+
+	column Cost
+		dataType: double
+		formatString: ₹ #,##0
+		lineageTag: f148bc16-d0fb-4ea6-b291-b72374cad386
+		sourceColumn: Cost
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Binary.Decompress(File.Contents(DataFolder & "fact_sales.csv.gz"), Compression.GZip), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.TransformColumnNames(Headers, each Text.Replace(_, "_", " ")),
+				    Blanks = Table.ReplaceValue(Renamed, "", null, Replacer.ReplaceValue, {"Salesperson ID", "Beat ID", "Outlet ID"}),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"Date", type date}, {"Sales Type", type text}, {"Invoice No", type text}, {"Distributor ID", type text}, {"Salesperson ID", type text}, {"Beat ID", type text}, {"Outlet ID", type text}, {"SKU ID", type text}, {"Quantity", Int64.Type}, {"Net Sales", type number}, {"Cost", type number}}, "en-US")
+				in
+				    Typed
+

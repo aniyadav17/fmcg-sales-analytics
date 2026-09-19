@@ -1,0 +1,45 @@
+/// Beat (route) master.
+table Beat
+	lineageTag: eb883c75-340c-4c55-9ef4-d64b8228f03d
+
+	column 'Beat ID'
+		dataType: string
+		lineageTag: ce7d1737-b76e-4ffc-b2d3-f6d6d4bf2796
+		sourceColumn: Beat ID
+
+	column 'Beat Name'
+		dataType: string
+		lineageTag: b6d2a3e5-2484-476a-ac42-8c0a7acd0300
+		sourceColumn: Beat Name
+
+	column 'Salesperson ID'
+		dataType: string
+		lineageTag: 987e3c99-6322-4c82-ac80-76e30fd7e020
+		sourceColumn: Salesperson ID
+
+	column 'Salesperson Name'
+		dataType: string
+		lineageTag: 192d2552-81ac-43c0-8454-1341cafce99e
+		sourceColumn: Salesperson Name
+
+	column 'Distributor ID'
+		dataType: string
+		lineageTag: 0acd16c2-6e16-4160-ae40-fb134f93b813
+		sourceColumn: Distributor ID
+
+	column 'Visit Day'
+		dataType: string
+		lineageTag: 8055b6ac-49ac-4880-98f6-b354d7d8d0fb
+		sourceColumn: Visit Day
+
+	partition Beat = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_beat.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.TransformColumnNames(Headers, each Text.Replace(_, "_", " ")),
+				    Typed = Table.TransformColumnTypes(Renamed, {{"Beat ID", type text}, {"Beat Name", type text}, {"Salesperson ID", type text}, {"Salesperson Name", type text}, {"Distributor ID", type text}, {"Visit Day", type text}}, "en-US")
+				in
+				    Typed
+

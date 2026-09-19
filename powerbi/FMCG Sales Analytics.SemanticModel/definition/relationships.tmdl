@@ -1,0 +1,64 @@
+relationship Sales_Date_Date_Date
+	fromColumn: Sales.Date
+	toColumn: Date.Date
+
+relationship 'Sales_Distributor ID_Distributor_Distributor ID'
+	fromColumn: Sales.'Distributor ID'
+	toColumn: Distributor.'Distributor ID'
+
+relationship 'Sales_Salesperson ID_Salesperson_Salesperson ID'
+	fromColumn: Sales.'Salesperson ID'
+	toColumn: Salesperson.'Salesperson ID'
+
+relationship 'Sales_Beat ID_Beat_Beat ID'
+	fromColumn: Sales.'Beat ID'
+	toColumn: Beat.'Beat ID'
+
+relationship 'Sales_Outlet ID_Outlet_Outlet ID'
+	fromColumn: Sales.'Outlet ID'
+	toColumn: Outlet.'Outlet ID'
+
+relationship 'Sales_SKU ID_Product_SKU ID'
+	fromColumn: Sales.'SKU ID'
+	toColumn: Product.'SKU ID'
+
+relationship Product_Category_Category_Category
+	fromColumn: Product.Category
+	toColumn: Category.Category
+
+relationship 'Targets_Month Date_Date_Date'
+	fromColumn: Targets.'Month Date'
+	toColumn: Date.Date
+
+relationship 'Targets_Distributor ID_Distributor_Distributor ID'
+	fromColumn: Targets.'Distributor ID'
+	toColumn: Distributor.'Distributor ID'
+
+relationship 'Targets_Salesperson ID_Salesperson_Salesperson ID'
+	fromColumn: Targets.'Salesperson ID'
+	toColumn: Salesperson.'Salesperson ID'
+
+relationship Targets_Category_Category_Category
+	fromColumn: Targets.Category
+	toColumn: Category.Category
+
+relationship 'Stock_Snapshot Date_Date_Date'
+	fromColumn: Stock.'Snapshot Date'
+	toColumn: Date.Date
+
+relationship 'Stock_Distributor ID_Distributor_Distributor ID'
+	fromColumn: Stock.'Distributor ID'
+	toColumn: Distributor.'Distributor ID'
+
+relationship 'Stock_SKU ID_Product_SKU ID'
+	fromColumn: Stock.'SKU ID'
+	toColumn: Product.'SKU ID'
+
+relationship 'Collections_Invoice Date_Date_Date'
+	fromColumn: Collections.'Invoice Date'
+	toColumn: Date.Date
+
+relationship 'Collections_Distributor ID_Distributor_Distributor ID'
+	fromColumn: Collections.'Distributor ID'
+	toColumn: Distributor.'Distributor ID'
+
