@@ -6,7 +6,7 @@ exception centre. Everything is computed in the browser, so it needs no backend.
 
 ![React](https://img.shields.io/badge/React-19-61dafb) ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6) ![Python](https://img.shields.io/badge/Python-pandas%20%2F%20numpy-3776ab) ![Tests](https://img.shields.io/badge/reconciliation%20tests-20%20passing-2ea44f) ![Data](https://img.shields.io/badge/rows-1.08M-orange)
 
-**Live demo:** `https://<your-github-username>.github.io/fmcg-sales-analytics/` (see [Deploy](#deploy))
+**Live demo:** [aniyadav17.github.io/fmcg-sales-analytics](https://aniyadav17.github.io/fmcg-sales-analytics/) (see [Deploy](#deploy))
 
 ![Executive overview](screenshots/01-executive.png)
 
